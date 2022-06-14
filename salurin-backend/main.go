@@ -1,1 +1,7 @@
-package salurin_backend
+package main
+
+import "salurin-backend/db"
+
+func main() {
+	db.Run()
+}
