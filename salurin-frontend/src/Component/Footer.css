@@ -1,0 +1,38 @@
+.logo-wrapper{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: #FF852C;
+    border-radius: 50%;
+    width: 2.5rem;
+    height: 2.5rem;
+}
+
+.logo-wrapper:not(:last-child){
+    margin-right: 1.5rem;
+}
+
+.logo-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.footer-container{
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 5rem;
+    background-color: #599042;
+}
+
+p{
+    margin-bottom: 0;
+    color: white;
+    font-family: 'Poppins';
+}
+
+.salurin-container{
+    display: flex;
+    align-items: center;
+}

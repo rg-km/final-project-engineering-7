@@ -1,3 +1,4 @@
+import Footer from './Component/Footer'
 import logo from './logo.png';
 import './App.css';
 import Container from 'react-bootstrap/Container'
