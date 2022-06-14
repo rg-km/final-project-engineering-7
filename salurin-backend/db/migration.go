@@ -21,16 +21,16 @@ type database struct {
 func RegisterModels() []Model {
 	return []Model{
 		{Model: entity.User{}},
-		// {Model: entity.Campaign{}},
-		// {Model: entity.CampaignImage{}},
-		// {Model: entity.Trasaction{}},
-		// {Model: entity.Story{}},
+		{Model: entity.Campaign{}},
+		{Model: entity.CampaignImage{}},
+		{Model: entity.Trasaction{}},
+		{Model: entity.Story{}},
 	}
 }
 
 func (d *database) initializeDB() {
-
-	_, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	var err error
+	d.DB, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if err != nil {
 		panic("Failed on connecting to the database server")
 	}
