@@ -11,7 +11,12 @@ function Campaign()
     return(
         <Container>
             <Row className='my-3'>
-                <Col><h2 className='fw-bold tittle my-2 text-start'>Campaign Terkini</h2></Col>
+                <Col>
+                    <h2 className='display-1 fw-bold tittle my-2 text-start'>Campaign Terkini</h2>
+                    <p className='fs-5 text-start text-dark'>
+                    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.
+                    </p>
+                </Col>
                 <Col className='d-flex align-items-center justify-content-end'>
                     <a href="https://example.com" className='text-end my-2'>lainnya</a>
                 </Col>
