@@ -1,8 +1,10 @@
 package db
 
 import (
+	"errors"
 	"fmt"
 	"log"
+	"os"
 	"salurin-backend/entity"
 
 	"gorm.io/driver/sqlite"
@@ -46,8 +48,40 @@ func (d *database) initializeDB() {
 
 	fmt.Println("Database migrated successfully.")
 }
+
+func (d *database) connectionDB() (*gorm.DB, error) {
+	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	if err != nil {
+		fmt.Println(errors.New("Failed on connecting to the database server"))
+		return db, nil
+	}
+
+	fmt.Println("Connection DB succesfully")
+	return db, nil
+}
+func exists(path string) (bool, error) {
+	_, err := os.Stat(path)
+	if err == nil {
+		return true, nil
+	}
+	if os.IsNotExist(err) {
+		return false, nil
+	}
+	return false, err
+}
 func Run() {
 
 	var db database
-	db.initializeDB()
+
+	isExist, err := exists("./gorm.db")
+	if err != nil {
+		fmt.Println(err.Error())
+		return
+	}
+	if !isExist {
+		db.initializeDB()
+		return
+	}
+	db.connectionDB()
+
 }
