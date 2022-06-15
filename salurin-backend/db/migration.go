@@ -30,11 +30,12 @@ func RegisterModels() []Model {
 	}
 }
 
-func (d *database) initializeDB() {
+func (d *database) initializeDB() error {
 	var err error
 	d.DB, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if err != nil {
-		panic("Failed on connecting to the database server")
+		fmt.Println("Failed on connecting to the database server")
+		return err
 	}
 
 	for _, model := range RegisterModels() {
@@ -43,17 +44,19 @@ func (d *database) initializeDB() {
 		if err != nil {
 			fmt.Println("error migration")
 			log.Fatal(err)
+			return err
 		}
 	}
 
 	fmt.Println("Database migrated successfully.")
+	return nil
 }
 
 func (d *database) connectionDB() (*gorm.DB, error) {
 	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
 	if err != nil {
 		fmt.Println(errors.New("Failed on connecting to the database server"))
-		return db, nil
+		return db, err
 	}
 
 	fmt.Println("Connection DB succesfully")
@@ -69,19 +72,25 @@ func exists(path string) (bool, error) {
 	}
 	return false, err
 }
-func Run() {
+func Run() (*gorm.DB, error) {
 
 	var db database
 
 	isExist, err := exists("./gorm.db")
 	if err != nil {
 		fmt.Println(err.Error())
-		return
+		return nil, err
 	}
 	if !isExist {
-		db.initializeDB()
-		return
+		err := db.initializeDB()
+		if err != nil {
+			fmt.Println(err.Error())
+		}
 	}
-	db.connectionDB()
+	database, err := db.connectionDB()
+	if err != nil {
+		return database, err
+	}
+	return database, nil
 
 }
