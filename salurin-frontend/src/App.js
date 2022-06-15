@@ -3,6 +3,7 @@ import './App.css';
 import Navbar from './Component/navbar';
 import Footer from './Component/Footer';
 import Campaign from './Component/Campaign';
+import Stories from './Component/Stories';
 
 function App() {
   return (
@@ -21,6 +22,9 @@ function App() {
 
       {/* Campaign */}
       <Campaign />
+
+      {/* Stories */}
+      <Stories />
     </div>
     <Footer />
     </>
