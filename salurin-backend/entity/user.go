@@ -6,7 +6,6 @@ import "time"
 type User struct {
 	ID           int    `gorm:"size:36;not null;uniqueIndex;primary_key" gorm:"AUTO_INCREMENT"`
 	Name         string `gorm:"size:100;not null"`
-	Loggedin     string `gorm:"size:100"`
 	Email        string `gorm:"size:100;not null;uniqueIndex"`
 	PasswordHash string `gorm:"size:100;not null"`
 	Avatar       string `gorm:"size:100"`
@@ -30,13 +29,13 @@ type CheckEmailAvailableRequest struct {
 
 //LOGINRequest: Login Request
 type LoginRequest struct {
-	Email    string `json:"email" form:"email" binding:"required,email"`
-	Password string `json:"password" form:"password" binding:"email"`
+	Email    string `json:"email"  binding:"required,email"`
+	Password string `json:"password"  binding:"email"`
 }
 
 /*RESPONSE*/
 
-type ResgisterResponse struct {
+type RegisterResponse struct {
 	ID    int    `json:"id"`
 	Name  string `json:"name"`
 	Email string `json:"email"`

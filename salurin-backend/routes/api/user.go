@@ -1,11 +1,12 @@
 package api
 
 import (
-	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 	"salurin-backend/handler"
 	"salurin-backend/repository"
 	"salurin-backend/services"
+
+	"github.com/gin-gonic/gin"
+	"gorm.io/gorm"
 )
 
 func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
@@ -20,4 +21,5 @@ func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
 
 	//routes
 	api.POST("/login", userHandler.Login)
+	api.POST("/register", userHandler.RegisterUser)
 }

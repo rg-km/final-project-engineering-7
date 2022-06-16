@@ -10,6 +10,7 @@ import (
 
 type UserService interface {
 	Login(form entity.LoginRequest) (entity.User, error)
+	RegisterUser(form entity.RegisterRequest) (entity.User, error)
 }
 
 type userService struct {
@@ -33,4 +34,22 @@ func (s *userService) Login(form entity.LoginRequest) (entity.User, error) {
 		return model, errors.New("Password inccorect")
 	}
 	return model, nil
+}
+
+func (s *userService) RegisterUser(register entity.RegisterRequest) (entity.User, error) {
+	var user entity.User
+	user.Name = register.Name
+	user.Email = register.Email
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(register.Password), bcrypt.MinCost)
+	if err != nil {
+		return user, err
+	}
+	user.PasswordHash = string(passwordHash)
+	newUser, err := s.repository.Save(user)
+	if err != nil {
+		return newUser, err
+	}
+
+	return newUser, nil
+
 }

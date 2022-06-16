@@ -69,7 +69,6 @@ type CampaignDetailResponse struct {
 	TargetAmount  int                      `json:"target_amount"`
 	CurrentAmount int                      `json:"current_amount"`
 	Description   string                   `json:"description"`
-	Perks         []string                 `json:"perks"`
 	User          CampaignUserResponse     `json:"user"`
 	Images        []CampaignImagesResponse `json:"images"`
 }

@@ -1,10 +1,10 @@
 package main
 
 import (
-	"github.com/gin-gonic/gin"
 	"salurin-backend/db"
-
 	handler "salurin-backend/routes/api"
+
+	"github.com/gin-gonic/gin"
 )
 
 func main() {
