@@ -21,11 +21,11 @@ function Jumbotron() {
       <Row className="d-flex text-dark justify-content-center align-items-center">
         <Col >
           <div className="text-start">
-            <p className="mb-0 fw-bold tittle" style={{fontSize:"4.25rem"}}>MARI ...</p>
-            <div className="mb-0 fw-bold tittle" style={{fontSize:"4.25rem"}}>
+            <p className="mb-0 fw-bold tittle" style={{fontSize:"4rem"}}>MARI ...</p>
+            <div className="mb-0 fw-bold tittle" style={{fontSize:"4rem"}}>
               <span style={{color:"#599042"}}>GOTONG</span> <span style={{color:"#FF852C"}}> ROYONG!</span>
             </div>
-            <div className="fs-5 my-3">
+            <div className="my-3 text-muted" style={{fontSize:"1.125rem"}}>
               Salurin adalah crowdfunding platform yang berfokus pada bidang
               pendidikan guna membantu pendidikan indonesia menjadi lebih
               merata.
