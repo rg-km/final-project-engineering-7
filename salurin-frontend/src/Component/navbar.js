@@ -30,7 +30,7 @@ function navbar()
                 <Navbar.Collapse className="justify-content-end">
                     <Button className='btn btn-light mx-2'>
                         {/* Endpoint to login page */}
-                        Sign In
+                        <Link to='/login'>Sign In</Link>
                     </Button>
                     <Button className='btn btn-success'>
                         {/* Endpoint to Register page */}
