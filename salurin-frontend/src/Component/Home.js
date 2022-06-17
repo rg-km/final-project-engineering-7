@@ -1,16 +1,26 @@
 import React from 'react';
 
-// import component
+// import component Jumbotron
+import Jumbotron from './Jumbotron';
+// import component Feature
+import Feature from './Feature';
+//  import component campaign
+import Campaign from './Campaign';
+// import compnent Stories
+import Stories from './Stories';
 
 function Home()
 {
     return(
         <>
-            <div className="App">
-                <header className="App-header">
-                
-                </header>
-            </div>
+            {/* Jumbotron component */}
+            <Jumbotron />
+            {/* Feature component */}
+            <Feature />
+            {/* Campaign component */}
+            <Campaign />
+            {/* Stories component */}
+            <Stories />
         </>
     )
 }
