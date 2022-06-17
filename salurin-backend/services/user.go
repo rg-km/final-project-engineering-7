@@ -12,6 +12,7 @@ type UserService interface {
 	Login(form entity.LoginRequest) (entity.User, error)
 	RegisterUser(form entity.RegisterRequest) (entity.User, error)
 	GetUserByID(id int) (entity.User, error)
+	CheckEmailAvailability(form entity.CheckEmailAvailableRequest) (bool, error)
 }
 
 type userService struct {
@@ -66,4 +67,16 @@ func (s *userService) GetUserByID(id int) (entity.User, error) {
 		return model, errors.New("User not found")
 	}
 	return model, nil
+}
+
+func (s *userService) CheckEmailAvailability(form entity.CheckEmailAvailableRequest) (bool, error) {
+	email := form.Email
+	user, err := s.repository.FindByEmail(email)
+	if err != nil {
+		return false, err
+	}
+	if user.ID == 0 {
+		return true, nil
+	}
+	return false, err
 }

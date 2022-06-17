@@ -83,3 +83,32 @@ func (u *userHandler) RegisterUser(c *gin.Context) {
 	c.JSON(http.StatusOK, response)
 
 }
+
+func (u *userHandler) CheckEmailAvailable(c *gin.Context) {
+	var request entity.CheckEmailAvailableRequest
+
+	err := c.ShouldBindJSON(&request)
+	if err != nil {
+		errors := helper.FormatValidationError(err)
+		errorsMessage := gin.H{"errors": errors}
+
+		response := helper.APIResponse("Email user validation failed", http.StatusUnprocessableEntity, "failed", errorsMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	userEmail, err := u.userService.CheckEmailAvailability(request)
+	if err != nil {
+		errorsMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Email is not valid", http.StatusUnprocessableEntity, "failed", errorsMessage)
+		c.JSON(http.StatusUnprocessableEntity, response)
+		return
+	}
+	data := gin.H{"is_avaiable": userEmail}
+	message := "Email Address Is Already Used By Another User"
+	if userEmail {
+		message = "Email is avaiable"
+	}
+
+	response := helper.APIResponse(message, http.StatusOK, "success", data)
+	c.JSON(http.StatusOK, response)
+}

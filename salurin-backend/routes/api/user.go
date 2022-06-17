@@ -24,4 +24,5 @@ func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
 	//routes
 	api.POST("/login", userHandler.Login)
 	api.POST("/register", userHandler.RegisterUser)
+	api.POST("/email-check", userHandler.CheckEmailAvailable)
 }
