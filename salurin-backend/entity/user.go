@@ -30,7 +30,7 @@ type CheckEmailAvailableRequest struct {
 //LOGINRequest: Login Request
 type LoginRequest struct {
 	Email    string `json:"email"  binding:"required,email"`
-	Password string `json:"password"  binding:"email"`
+	Password string `json:"password"  binding:"required"`
 }
 
 /*RESPONSE*/
