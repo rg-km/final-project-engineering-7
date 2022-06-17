@@ -11,38 +11,29 @@ import {
 
 // Import component
 // import Home component
-import Home from './Component/Home';
-// Import Navbar component
-import Navbar from './Component/navbar';
-// Import Footer Component
-import Footer from './Component/Footer';
+import Home from './Pages/Home';
 
 // Import Auth component
 // Import Register component
-import RegisterForm from './Auth/RegisterForm';
+import RegisterForm from './Pages/Auth/RegisterForm';
 // import Login component
-import LoginForm from './Auth/LoginForm';
+import LoginForm from './Pages/Auth/LoginForm';
 
 function App() {
   return (
     <>
       <Router>
-        <Navbar />
-        <Home />
-        
         {/* This is router for navigate to end point */}
         <Routes>
           {/* This is home/root folder this app */}
-          <Route path='/' component={<Home/>} /> 
+          <Route path='/' element={<Home/>} /> 
 
           {/* This is Register route for register page */}
-          <Route path='/register' component={<RegisterForm />} />
+          <Route path='/register' element={<RegisterForm />} />
 
           {/* This is Login route for login page */}
-          <Route path='/login' component={<LoginForm />} />
+          <Route path='/login' element={<LoginForm />} />
         </Routes>
-        
-        <Footer />
       </Router>
     </>
   );
