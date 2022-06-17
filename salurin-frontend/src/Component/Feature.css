@@ -1,0 +1,15 @@
+*{
+    font-family: 'Poppins';
+}
+
+.feature-title{
+    font-weight: 600;
+    font-size: 1.75rem;
+    margin-bottom: 0.5rem;
+}
+
+.feature-text{
+    font-size: 1.25rem;
+    font-weight: 300;
+    color: #777;
+}

@@ -1,0 +1,10 @@
+* {
+    color: #000 !important;
+}
+
+.wrapper {
+    height: 100vh;  
+}
+.link {
+    text-decoration: none;
+}

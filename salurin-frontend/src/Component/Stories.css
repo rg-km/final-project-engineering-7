@@ -1,0 +1,15 @@
+.stories-wrapper {
+    position: relative;
+    height: 384px;
+    overflow: hidden;
+}
+.slider {
+    position: absolute;
+    left: 16%;
+    display: flex;
+}
+
+.stories-card:not(:last-child) {
+    margin-right: 30px;
+    max-height: 384px;
+}
