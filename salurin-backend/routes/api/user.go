@@ -1,6 +1,7 @@
 package api
 
 import (
+	"salurin-backend/config"
 	"salurin-backend/handler"
 	"salurin-backend/repository"
 	"salurin-backend/services"
@@ -15,9 +16,10 @@ func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
 
 	//service
 	userService := services.NewUserService(userRepository)
+	authService := config.NewAuthService()
 
 	//handler
-	userHandler := handler.NewUserHandler(userService)
+	userHandler := handler.NewUserHandler(userService, authService)
 
 	//routes
 	api.POST("/login", userHandler.Login)
