@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"salurin-backend/config"
 	"salurin-backend/entity"
 	"salurin-backend/formatter"
 	"salurin-backend/helper"
@@ -12,10 +13,11 @@ import (
 
 type userHandler struct {
 	userService services.UserService
+	authService config.AuthService
 }
 
-func NewUserHandler(userService services.UserService) *userHandler {
-	return &userHandler{userService}
+func NewUserHandler(userService services.UserService, authService config.AuthService) *userHandler {
+	return &userHandler{userService, authService}
 }
 
 func (h *userHandler) Login(c *gin.Context) {
@@ -31,13 +33,20 @@ func (h *userHandler) Login(c *gin.Context) {
 	}
 	userLogged, err := h.userService.Login(request)
 	if err != nil {
-
 		errMessage := gin.H{"errors": err.Error()}
 		errResponse := helper.APIResponse("Login Failed", http.StatusBadRequest, "failed", errMessage)
 		c.JSON(http.StatusBadRequest, errResponse)
 		return
 	}
-	formatRespon := formatter.UserFormater(userLogged, "tokentestingcommingjwt")
+	token, err := h.authService.GenerateToken(userLogged.ID)
+	if err != nil {
+		errMessage := gin.H{"errors": err.Error()}
+		errResponse := helper.APIResponse("Generate Token Failed", http.StatusBadRequest, "failed", errMessage)
+		c.JSON(http.StatusBadRequest, errResponse)
+		return
+	}
+
+	formatRespon := formatter.UserFormater(userLogged, token)
 	res := helper.APIResponse("Login Successful", http.StatusOK, "success", formatRespon)
 	c.JSON(http.StatusOK, res)
 }
@@ -60,8 +69,15 @@ func (u *userHandler) RegisterUser(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
+	token, err := u.authService.GenerateToken(user.ID)
+	if err != nil {
+		errMessage := gin.H{"errors": err.Error()}
+		errResponse := helper.APIResponse("Generate Token Failed", http.StatusBadRequest, "failed", errMessage)
+		c.JSON(http.StatusBadRequest, errResponse)
+		return
+	}
 	//jwt token
-	formatRespon := formatter.UserFormater(user, "tokentestingcommingjwt")
+	formatRespon := formatter.UserFormater(user, token)
 
 	response := helper.APIResponse("Your user has been created", http.StatusOK, "success", formatRespon)
 	c.JSON(http.StatusOK, response)

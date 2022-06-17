@@ -11,6 +11,7 @@ import (
 type UserService interface {
 	Login(form entity.LoginRequest) (entity.User, error)
 	RegisterUser(form entity.RegisterRequest) (entity.User, error)
+	GetUserByID(id int) (entity.User, error)
 }
 
 type userService struct {
@@ -52,4 +53,17 @@ func (s *userService) RegisterUser(register entity.RegisterRequest) (entity.User
 
 	return newUser, nil
 
+}
+
+func (s *userService) GetUserByID(id int) (entity.User, error) {
+	//Find
+	model, err := s.repository.FindByID(id)
+	if err != nil {
+		return model, err
+	}
+	//Is Found?
+	if model.ID == 0 {
+		return model, errors.New("User not found")
+	}
+	return model, nil
 }
