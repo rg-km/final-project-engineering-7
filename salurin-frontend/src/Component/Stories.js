@@ -4,7 +4,6 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Card from 'react-bootstrap/Card';
 import Button from 'react-bootstrap/Button';
-import ExampleImage from '../Assets/example-img.svg';
 import Image from 'react-bootstrap/Image'
 import Avatar from '../Assets/avatar-sully.png';
 
