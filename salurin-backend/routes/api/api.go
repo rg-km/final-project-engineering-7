@@ -24,8 +24,13 @@ func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 	//routes
+
+	//users
 	api.POST("/login", userHandler.Login)
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/email-check", userHandler.CheckEmailAvailable)
+
+	//campaign
 	api.GET("/campaigns/:id", campaignHandler.GetCampaignDetail)
+	api.GET("/campaigns", campaignHandler.GetCampaigns)
 }

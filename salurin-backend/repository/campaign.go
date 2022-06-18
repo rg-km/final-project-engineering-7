@@ -30,7 +30,7 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 	return model, nil
 }
 
-func (r *campaignRepository) FindByAll() (entity.Campaign, error) {
+func (r *campaignRepository) FindAll() (entity.Campaign, error) {
 	var model entity.Campaign
 	err := r.db.Preload("CampaignImages", "campaign_images.is_primary = 1").Find(&model).Error
 	if err != nil {
