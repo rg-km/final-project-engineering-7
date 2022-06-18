@@ -6,8 +6,10 @@ import (
 	"salurin-backend/formatter"
 	"salurin-backend/helper"
 	"salurin-backend/services"
+	"strconv"
 
 	"github.com/gin-gonic/gin"
+	"github.com/mitchellh/mapstructure"
 )
 
 type campaignHandler struct {
@@ -37,4 +39,18 @@ func (h *campaignHandler) GetCampaignDetail(c *gin.Context) {
 	formatter := formatter.FormatterDetailCampaign(campaignDetail)
 	reponse := helper.APIResponse("Campaign Detail", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, reponse)
+}
+
+func (h *campaignHandler) GetCampaigns(c *gin.Context) {
+	userID, _ := strconv.Atoi(c.Query("user_id"))
+	campaigns, err := h.service.GetCampaign(userID)
+	if err != nil {
+		errResponse := helper.APIResponse("Failed to get a campaign", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, errResponse)
+		return
+	}
+	models := []entity.Campaign{}
+	mapstructure.Decode(campaigns, &models)
+	formatter := formatter.CampaignsAdapter(models)
+	c.JSON(http.StatusOK, formatter)
 }

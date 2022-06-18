@@ -29,3 +29,30 @@ func FormatterDetailCampaign(campaign entity.Campaign) entity.CampaignDetailResp
 	formater.Images = campaignImages
 	return formater
 }
+
+func FormatterCampaign(campaign entity.Campaign) entity.CampaignResponse {
+	formatter := entity.CampaignResponse{
+		ID:            campaign.ID,
+		UserID:        campaign.UserID,
+		Title:         campaign.Title,
+		Description:   campaign.Description,
+		TargetAmount:  campaign.TargetAmount,
+		CurrentAmount: campaign.CurrentAmount,
+	}
+	formatter.ImageUrl = ""
+	formatter.Title = ""
+
+	if len(campaign.CampaignImages) > 0 {
+		formatter.ImageUrl = campaign.CampaignImages[0].Image
+	}
+
+	return formatter
+}
+func CampaignsAdapter(campaigns []entity.Campaign) []entity.CampaignResponse {
+	campaignsAdapter := []entity.CampaignResponse{}
+	for _, campaign := range campaigns {
+		campaignAdapter := FormatterCampaign(campaign)
+		campaignsAdapter = append(campaignsAdapter, campaignAdapter)
+	}
+	return campaignsAdapter
+}
