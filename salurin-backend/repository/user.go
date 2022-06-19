@@ -10,15 +10,11 @@ type UserRepository interface {
 	FindByEmail(email string) (entity.User, error)
 	FindByID(id int) (entity.User, error)
 	Save(user entity.User) (entity.User, error)
+	Update(user entity.User) (entity.User, error)
 }
 
 type userRepository struct {
 	db *gorm.DB
-}
-
-type UserRespository interface {
-	// Insert user
-	Save(user entity.User) (entity.User, error)
 }
 
 func NewUserRepository(db *gorm.DB) *userRepository {
@@ -49,4 +45,12 @@ func (r *userRepository) FindByID(id int) (entity.User, error) {
 		return model, err
 	}
 	return model, nil
+}
+
+func (r *userRepository) Update(user entity.User) (entity.User, error) {
+	err := r.db.Save(&user).Error
+	if err != nil {
+		return user, err
+	}
+	return user, nil
 }

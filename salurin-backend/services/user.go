@@ -13,6 +13,7 @@ type UserService interface {
 	RegisterUser(form entity.RegisterRequest) (entity.User, error)
 	GetUserByID(id int) (entity.User, error)
 	CheckEmailAvailability(form entity.CheckEmailAvailableRequest) (bool, error)
+	SaveAvatarImage(id int, fileLocation string) (entity.User, error)
 }
 
 type userService struct {
@@ -79,4 +80,17 @@ func (s *userService) CheckEmailAvailability(form entity.CheckEmailAvailableRequ
 		return true, nil
 	}
 	return false, err
+}
+
+func (s *userService) SaveAvatarImage(id int, fileLocation string) (entity.User, error) {
+	user, err := s.repository.FindByID(id)
+	if err != nil {
+		return user, err
+	}
+	user.Avatar = fileLocation
+	userUpdated, err := s.repository.Update(user)
+	if err != nil {
+		return user, err
+	}
+	return userUpdated, nil
 }
