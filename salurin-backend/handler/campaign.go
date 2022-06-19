@@ -65,7 +65,7 @@ func (h *campaignHandler) CreateCampaign(c *gin.Context) {
 		c.JSON(http.StatusUnprocessableEntity, errResponse)
 	}
 
-	request.UserID = currentUser.ID
+	request.User = currentUser
 
 	newCampaign, err := h.service.CreateCampaign(request)
 	if err != nil {

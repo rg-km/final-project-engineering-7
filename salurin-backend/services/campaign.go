@@ -51,6 +51,7 @@ func (s *campaignService) CreateCampaign(form entity.CreateCampaignRequest) (ent
 		Description:  form.Description,
 		TargetAmount: form.TargetAmount,
 		UserID:       form.UserID,
+		User:         form.User,
 	}
 	newCampaign, err := s.repository.Save(model)
 	if err != nil {
