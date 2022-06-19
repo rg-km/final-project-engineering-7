@@ -2,8 +2,8 @@ package config
 
 import (
 	"errors"
-	"github.com/dgrijalva/jwt-go"
 	"os"
+	"github.com/dgrijalva/jwt-go"
 )
 
 // AuthService : JWT Service Contract
