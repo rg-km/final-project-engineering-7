@@ -3,6 +3,7 @@ package api
 import (
 	"salurin-backend/config"
 	"salurin-backend/handler"
+	"salurin-backend/middleware"
 	"salurin-backend/repository"
 	"salurin-backend/services"
 
@@ -33,4 +34,7 @@ func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
 	//campaign
 	api.GET("/campaigns/:id", campaignHandler.GetCampaignDetail)
 	api.GET("/campaigns", campaignHandler.GetCampaigns)
+
+	api.POST("/campaigns", middleware.APIAuthMiddleware(authService, userService), campaignHandler.CreateCampaign)
+	api.PATCH("/campaigns/:id", middleware.APIAuthMiddleware(authService, userService), campaignHandler.EditCampaign)
 }
