@@ -1,14 +1,12 @@
 package db
 
 import (
+	"database/sql"
 	"errors"
 	"fmt"
-	"log"
 	"os"
-	"salurin-backend/entity"
 
-	"gorm.io/driver/sqlite"
-	"gorm.io/gorm"
+	_ "github.com/mattn/go-sqlite3"
 )
 
 //entity Users
@@ -17,43 +15,67 @@ type Model struct {
 }
 
 type database struct {
-	DB *gorm.DB
-}
-
-func RegisterModels() []Model {
-	return []Model{
-		{Model: entity.User{}},
-		{Model: entity.Campaign{}},
-		{Model: entity.CampaignImage{}},
-		{Model: entity.Trasaction{}},
-		{Model: entity.Story{}},
-	}
+	DB *sql.DB
 }
 
 func (d *database) initializeDB() error {
-	var err error
-	d.DB, err = gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+	db, err := sql.Open("sqlite3", "/salurin.db")
 	if err != nil {
-		fmt.Println("Failed on connecting to the database server")
-		return err
+		panic(err)
 	}
 
-	for _, model := range RegisterModels() {
-		err = d.DB.Debug().AutoMigrate(model.Model)
-
-		if err != nil {
-			fmt.Println("error migration")
-			log.Fatal(err)
-			return err
-		}
+	_, err = db.Exec(`
+CREATE TABLE IF NOT EXISTS users (
+	id integer not null primary key AUTOINCREMENT,
+    name varchar(255) not null,
+    password_hash varchar(255) not null,
+	email varchar(255) not null,
+	avatar varchar(255),
+    created_at Time.time,
+    updated_at Time.time
+);
+CREATE TABLE IF NOT EXISTS campaigns (
+  id integer not null primary key AUTOINCREMENT,
+  user_id integer not null,
+  title varchar(255) not null,
+  target_amount integer not null,
+  current_amount integer not null,
+  description varchar(255) not null,
+  time_start Time.time,
+  time_end Time.time,
+  created_at Time.time,
+  updated_at Time.time  
+);
+CREATE TABLE IF NOT EXISTS campaign_images (
+	id integer not null primary key AUTOINCREMENT,
+	image varchar(255),
+	campaign_id integer not null,
+	created_at Time.time,
+	updated_at Time.time  
+);
+CREATE TABLE IF NOT EXISTS stories (
+	id integer not null primary key AUTOINCREMENT,
+	description varchar(255),
+	user_id integer not null,
+	created_at Time.time,
+	updated_at Time.time  
+);
+CREATE TABLE IF NOT EXISTS transactions (
+  	  id integer not null primary key AUTOINCREMENT,
+  	  amount integer not null,
+  	  status boolean not null
+);
+`)
+	if err != nil {
+		panic(err)
 	}
 
 	fmt.Println("Database migrated successfully.")
 	return nil
 }
 
-func (d *database) connectionDB() (*gorm.DB, error) {
-	db, err := gorm.Open(sqlite.Open("gorm.db"), &gorm.Config{})
+func (d *database) connectionDB() (*sql.DB, error) {
+	db, err := sql.Open("sqlite3", "./salurin.db")
 	if err != nil {
 		fmt.Println(errors.New("Failed on connecting to the database server"))
 		return db, err
@@ -72,11 +94,11 @@ func exists(path string) (bool, error) {
 	}
 	return false, err
 }
-func Run() (*gorm.DB, error) {
+func Run() (*sql.DB, error) {
 
 	var db database
 
-	isExist, err := exists("./gorm.db")
+	isExist, err := exists("./salurin.db")
 	if err != nil {
 		fmt.Println(err.Error())
 		return nil, err

@@ -1,6 +1,7 @@
 package api
 
 import (
+	"database/sql"
 	"salurin-backend/config"
 	"salurin-backend/handler"
 	"salurin-backend/middleware"
@@ -8,10 +9,9 @@ import (
 	"salurin-backend/services"
 
 	"github.com/gin-gonic/gin"
-	"gorm.io/gorm"
 )
 
-func APIRoute(api *gin.RouterGroup, db *gorm.DB) {
+func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	//repository
 	userRepository := repository.NewUserRepository(db)
 	campaignRepository := repository.NewCampaignRepository(db)

@@ -3,9 +3,9 @@ package entity
 import "time"
 
 type Story struct {
-	ID          int    `gorm:"size:36;not null;uniqueIndex;primary_key;AUTO_INCREMENT"`
-	UserID      int    `gorm:"size:100"`
-	Description string `gorm:"type:text"`
+	ID          int    `db:"id"`
+	UserID      int    `db:"user_id"`
+	Description string `db:"description"`
 	CreatedAt   time.Time
 	UpdatedAt   time.Time
 
