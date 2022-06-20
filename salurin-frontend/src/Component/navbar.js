@@ -4,6 +4,9 @@ import { Nav } from 'react-bootstrap';
 import Button from 'react-bootstrap/Button';
 import logo from './../logo.png';
 
+// Import react router dom for navigate to different end points;
+import { Link } from 'react-router-dom';
+
 function navbar() 
 {
     return(
@@ -25,14 +28,13 @@ function navbar()
                     <Nav.Link href="#home">Team</Nav.Link>
                 </Nav>
                 <Navbar.Collapse className="justify-content-end">
-                    {/* <Navbar.Text>
-                    Signed in as: <a href="#login">Mark Otto</a>
-                    </Navbar.Text> */}
                     <Button className='btn btn-light mx-2'>
-                    Sign In
+                        {/* Endpoint to login page */}
+                        <Link to='/login'>Sign In</Link>
                     </Button>
                     <Button className='btn btn-success'>
-                    Sign Up
+                        {/* Endpoint to Register page */}
+                        <Link to='/register'>Sign Up</Link>
                     </Button>
                 </Navbar.Collapse>
             </Container>
