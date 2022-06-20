@@ -3,11 +3,11 @@ package entity
 import "time"
 
 type Trasaction struct {
-	ID         int  `gorm:"size:36;not null;uniqueIndex;primary_key;AUTO_INCREMENT"`
-	UserID     int  `gorm:"size:100"`
-	CampaignID int  `gorm:"size:100"`
-	Amount     int  `gorm:"size:100"`
-	Status     bool `gorm:"default:true"`
+	ID         int  `db:"id"`
+	UserID     int  `db:"user_id"`
+	CampaignID int  `db:"campaign_id"`
+	Amount     int  `db:"amount"`
+	Status     bool `db:"status"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
 

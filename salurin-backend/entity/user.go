@@ -4,11 +4,11 @@ import "time"
 
 // entity Users
 type User struct {
-	ID           int    `gorm:"size:36;not null;uniqueIndex;primary_key" gorm:"AUTO_INCREMENT"`
-	Name         string `gorm:"size:100;not null"`
-	Email        string `gorm:"size:100;not null;uniqueIndex"`
-	PasswordHash string `gorm:"size:100;not null"`
-	Avatar       string `gorm:"size:100"`
+	ID           int    `db:"id"`
+	Name         string `db:"name"`
+	Email        string `db:"email"`
+	PasswordHash string `db:"password_hash"`
+	Avatar       string `db:"avatar"`
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
