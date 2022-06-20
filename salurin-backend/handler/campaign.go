@@ -9,7 +9,6 @@ import (
 	"strconv"
 
 	"github.com/gin-gonic/gin"
-	"github.com/mitchellh/mapstructure"
 )
 
 type campaignHandler struct {
@@ -49,10 +48,9 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 		c.JSON(http.StatusBadRequest, errResponse)
 		return
 	}
-	models := []entity.Campaign{}
-	mapstructure.Decode(campaigns, &models)
-	formatter := formatter.CampaignsAdapter(models)
-	c.JSON(http.StatusOK, formatter)
+	formatter := formatter.FormatterCampaign(campaigns)
+	reponse := helper.APIResponse("List of campaign", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, reponse)
 }
 
 func (h *campaignHandler) CreateCampaign(c *gin.Context) {
