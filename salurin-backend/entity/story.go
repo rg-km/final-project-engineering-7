@@ -11,3 +11,9 @@ type Story struct {
 
 	User User
 }
+
+type StoryResponse struct {
+	Description string `json:"description"`
+	Username    string `json:"username"`
+	Avatar      string `json:"avatar"`
+}

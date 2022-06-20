@@ -40,7 +40,6 @@ func (r *userRepository) FindByEmail(email string) (entity.User, error) {
 }
 
 func (r *userRepository) Save(user entity.User) (entity.User, error) {
-	fmt.Println(user)
 	sqlSmt := `INSERT INTO users(name,email,password_hash,avatar) VALUES(?,?,?,?)`
 	row, err := r.db.Exec(sqlSmt, user.Name, user.Email, user.PasswordHash, user.Avatar)
 	if err != nil {
