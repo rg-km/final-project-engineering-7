@@ -71,19 +71,19 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 	sqlSmt := `SELECT c.id,c.user_id,c.title,c.description,c.target_amount,c.current_amount,c.time_start,c.time_end
 	FROM campaigns c
-	JOIN campaign_images ci ON c.id=ci.campaign_id`
+	`
 
 	sqlSmtImg := `SELECT image from campaign_images where campaign_id =?`
 
 	var models []entity.Campaign
 	var campaignImages []entity.CampaignImage
+	var model entity.Campaign
 
 	rows, err := r.db.Query(sqlSmt)
 	if err != nil {
 		return models, err
 	}
 	for rows.Next() {
-		var model entity.Campaign
 		err := rows.Scan(&model.ID, &model.UserID, &model.Title, &model.Description, &model.TargetAmount, &model.CurrentAmount, &model.TimeStart, &model.TimeEnd)
 		if err != nil {
 			return models, err
@@ -93,13 +93,17 @@ func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 			var campaignsImages entity.CampaignImage
 			err := image.Scan(&campaignsImages.Image)
 			if err != nil {
+				fmt.Println(err)
 				return models, err
 			}
 			campaignImages = append(campaignImages, campaignsImages)
 		}
+
 		defer image.Close()
 		model.CampaignImages = campaignImages
+		models = append(models, model)
 	}
+
 	defer rows.Close()
 
 	return models, err
@@ -107,7 +111,6 @@ func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error) {
 	sqlSmt := `SELECT c.id,c.user_id,c.title,c.description,c.target_amount,c.current_amount,c.time_start,c.time_end
 	FROM campaigns c
-	JOIN campaign_images ci ON c.id=ci.campaign_id
 	WHERE c.user_id = ?
 	`
 
@@ -115,13 +118,13 @@ func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error)
 
 	var models []entity.Campaign
 	var campaignImages []entity.CampaignImage
+	var model entity.Campaign
 
 	rows, err := r.db.Query(sqlSmt, UserID)
 	if err != nil {
 		return models, err
 	}
 	for rows.Next() {
-		var model entity.Campaign
 		err := rows.Scan(&model.ID, &model.UserID, &model.Title, &model.Description, &model.TargetAmount, &model.CurrentAmount, &model.TimeStart, &model.TimeEnd)
 		if err != nil {
 			return models, err
@@ -131,13 +134,17 @@ func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error)
 			var campaignsImages entity.CampaignImage
 			err := image.Scan(&campaignsImages.Image)
 			if err != nil {
+				fmt.Println(err)
 				return models, err
 			}
 			campaignImages = append(campaignImages, campaignsImages)
 		}
+
 		defer image.Close()
 		model.CampaignImages = campaignImages
+		models = append(models, model)
 	}
+
 	defer rows.Close()
 
 	return models, err

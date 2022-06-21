@@ -98,7 +98,7 @@ func (h *campaignHandler) EditCampaign(c *gin.Context) {
 		return
 	}
 	//SET CAMPAIGNER OWNER
-	request.UserID = currentUser.ID
+	request.User = currentUser
 	//UPDATE CAMPAIGN DB
 	updateCampaign, err := h.service.EditCampaign(uri, request)
 	if err != nil {

@@ -2,6 +2,7 @@ package services
 
 import (
 	"errors"
+	"fmt"
 	"salurin-backend/entity"
 	"salurin-backend/repository"
 )
@@ -34,12 +35,14 @@ func (s *campaignService) GetDetailCampaign(form entity.CampaignDetailRequest) (
 func (s *campaignService) GetCampaign(userID int) ([]entity.Campaign, error) {
 	if userID != 0 {
 		campaigns, err := s.repository.FindByUserID(userID)
+
 		if err != nil {
 			return campaigns, err
 		}
 		return campaigns, nil
 	}
 	campaings, err := s.repository.FindAll()
+	fmt.Println(campaings)
 	if err != nil {
 		return campaings, err
 	}
@@ -50,7 +53,6 @@ func (s *campaignService) CreateCampaign(form entity.CreateCampaignRequest) (ent
 		Title:        form.Title,
 		Description:  form.Description,
 		TargetAmount: form.TargetAmount,
-		UserID:       form.UserID,
 		User:         form.User,
 	}
 	newCampaign, err := s.repository.Save(model)
