@@ -10,7 +10,7 @@ type CampaignService interface {
 	//GetDetailCampaign
 	GetDetailCampaign(form entity.CampaignDetailRequest) (entity.Campaign, error)
 	//GetAllCampaign
-	GetCampaign(userID int) (entity.Campaign, error)
+	GetCampaign(userID int) ([]entity.Campaign, error)
 
 	CreateCampaign(form entity.CreateCampaignRequest) (entity.Campaign, error)
 	EditCampaign(uri entity.CampaignDetailRequest, form entity.CreateCampaignRequest) (entity.Campaign, error)
@@ -31,7 +31,7 @@ func (s *campaignService) GetDetailCampaign(form entity.CampaignDetailRequest) (
 	return campaign, nil
 }
 
-func (s *campaignService) GetCampaign(userID int) (entity.Campaign, error) {
+func (s *campaignService) GetCampaign(userID int) ([]entity.Campaign, error) {
 	if userID != 0 {
 		campaigns, err := s.repository.FindByUserID(userID)
 		if err != nil {

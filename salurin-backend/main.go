@@ -1,7 +1,7 @@
 package main
 
 import (
-	"salurin-backend/config"
+	"github.com/gin-contrib/cors"
 	"salurin-backend/db"
 	handler "salurin-backend/routes/api"
 
@@ -14,7 +14,7 @@ func main() {
 		panic(err)
 	}
 	router := gin.Default()
-	router.Use(config.NewCORS())
+	router.Use(cors.Default())
 	api := router.Group("/api")
 	handler.APIRoute(api, db)
 	router.Run()

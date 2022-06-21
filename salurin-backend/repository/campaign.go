@@ -8,8 +8,8 @@ import (
 
 type CampaignRepository interface {
 	FindByID(ID int) (entity.Campaign, error)
-	FindAll() (entity.Campaign, error)
-	FindByUserID(userID int) (entity.Campaign, error)
+	FindAll() ([]entity.Campaign, error)
+	FindByUserID(userID int) ([]entity.Campaign, error)
 
 	Save(campaign entity.Campaign) (entity.Campaign, error)
 	Update(campaign entity.Campaign) (entity.Campaign, error)
@@ -68,37 +68,79 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 	return model, nil
 }
 
-func (r *campaignRepository) FindAll() (entity.Campaign, error) {
+func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 	sqlSmt := `SELECT c.id,c.user_id,c.title,c.description,c.target_amount,c.current_amount,c.time_start,c.time_end
 	FROM campaigns c
 	JOIN campaign_images ci ON c.id=ci.campaign_id`
-	model := entity.Campaign{}
+
+	sqlSmtImg := `SELECT image from campaign_images where campaign_id =?`
+
+	var models []entity.Campaign
+	var campaignImages []entity.CampaignImage
+
 	rows, err := r.db.Query(sqlSmt)
 	if err != nil {
-		return model, err
+		return models, err
 	}
-	if rows.Next() {
+	for rows.Next() {
+		var model entity.Campaign
 		err := rows.Scan(&model.ID, &model.UserID, &model.Title, &model.Description, &model.TargetAmount, &model.CurrentAmount, &model.TimeStart, &model.TimeEnd)
 		if err != nil {
-			return model, err
+			return models, err
 		}
+		image, _ := r.db.Query(sqlSmtImg, &model.ID)
+		for image.Next() {
+			var campaignsImages entity.CampaignImage
+			err := image.Scan(&campaignsImages.Image)
+			if err != nil {
+				return models, err
+			}
+			campaignImages = append(campaignImages, campaignsImages)
+		}
+		defer image.Close()
+		model.CampaignImages = campaignImages
 	}
-	return model, err
+	defer rows.Close()
+
+	return models, err
 }
-func (r *campaignRepository) FindByUserID(UserID int) (entity.Campaign, error) {
-	sqlSmt := `SELECT id,user_id,title,description,target_amount,current_amount,time_start,time_end FROM campaigns WHERE user_id= ?`
-	model := entity.Campaign{}
+func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error) {
+	sqlSmt := `SELECT c.id,c.user_id,c.title,c.description,c.target_amount,c.current_amount,c.time_start,c.time_end
+	FROM campaigns c
+	JOIN campaign_images ci ON c.id=ci.campaign_id
+	WHERE c.user_id = ?
+	`
+
+	sqlSmtImg := `SELECT image from campaign_images where campaign_id =?`
+
+	var models []entity.Campaign
+	var campaignImages []entity.CampaignImage
+
 	rows, err := r.db.Query(sqlSmt, UserID)
 	if err != nil {
-		return model, err
+		return models, err
 	}
-	if rows.Next() {
+	for rows.Next() {
+		var model entity.Campaign
 		err := rows.Scan(&model.ID, &model.UserID, &model.Title, &model.Description, &model.TargetAmount, &model.CurrentAmount, &model.TimeStart, &model.TimeEnd)
 		if err != nil {
-			return model, err
+			return models, err
 		}
+		image, _ := r.db.Query(sqlSmtImg, &model.ID)
+		for image.Next() {
+			var campaignsImages entity.CampaignImage
+			err := image.Scan(&campaignsImages.Image)
+			if err != nil {
+				return models, err
+			}
+			campaignImages = append(campaignImages, campaignsImages)
+		}
+		defer image.Close()
+		model.CampaignImages = campaignImages
 	}
-	return model, err
+	defer rows.Close()
+
+	return models, err
 }
 
 func (r *campaignRepository) Save(campaign entity.Campaign) (entity.Campaign, error) {
