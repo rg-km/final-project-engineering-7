@@ -42,7 +42,6 @@ func (s *campaignService) GetCampaign(userID int) ([]entity.Campaign, error) {
 		return campaigns, nil
 	}
 	campaings, err := s.repository.FindAll()
-	fmt.Println(campaings)
 	if err != nil {
 		return campaings, err
 	}
@@ -54,7 +53,9 @@ func (s *campaignService) CreateCampaign(form entity.CreateCampaignRequest) (ent
 		Description:  form.Description,
 		TargetAmount: form.TargetAmount,
 		User:         form.User,
+		UserID:       form.User.ID,
 	}
+	fmt.Println(model.User)
 	newCampaign, err := s.repository.Save(model)
 	if err != nil {
 		return newCampaign, err
@@ -66,15 +67,17 @@ func (s *campaignService) EditCampaign(uri entity.CampaignDetailRequest, form en
 	if err != nil {
 		return model, err
 	}
+
 	if model.ID == 0 {
 		return model, errors.New("Campaign not found")
 	}
-	if model.User != form.User {
+	if model.UserID != form.User.ID {
 		return model, errors.New("User not Authorize for this action")
 	}
 	model.Title = form.Title
 	model.TargetAmount = form.TargetAmount
 	model.Description = form.Description
+	fmt.Println(model)
 	updateCampaign, err := s.repository.Update(model)
 	if err != nil {
 		return updateCampaign, err

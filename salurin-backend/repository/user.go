@@ -35,6 +35,7 @@ func (r *userRepository) FindByEmail(email string) (entity.User, error) {
 			return model, err
 		}
 	}
+	defer row.Close()
 
 	return model, nil
 }
@@ -67,7 +68,7 @@ func (r *userRepository) FindByID(id int) (entity.User, error) {
 			return model, err
 		}
 	}
-
+	defer rows.Close()
 	return model, nil
 }
 

@@ -30,7 +30,6 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 	users.name,users.avatar
 	FROM campaigns
 	JOIN users ON campaigns.user_id=users.id
-	JOIN campaign_images ON campaigns.id=campaign_images.campaign_id
 	WHERE campaigns.id = ?`
 
 	sqlImageStmt := `SELECT
@@ -41,16 +40,7 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 	var campaignImages []entity.CampaignImage
 
 	rows, err := r.db.Query(sqlSmt, ID)
-	image, _ := r.db.Query(sqlImageStmt, ID)
-	for image.Next() {
-		var campaignImage entity.CampaignImage
-		err := image.Scan(&campaignImage.Image)
-		if err != nil {
-			return model, err
-		}
-		campaignImages = append(campaignImages, campaignImage)
-		fmt.Println(len(campaignImages))
-	}
+
 	if err != nil {
 		return model, err
 	}
@@ -62,9 +52,20 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 		if err != nil {
 			return model, err
 		}
+		image, _ := r.db.Query(sqlImageStmt, &model.ID)
+		for image.Next() {
+			var campaignImage entity.CampaignImage
+			err := image.Scan(&campaignImage.Image)
+			if err != nil {
+				return model, err
+			}
+			campaignImages = append(campaignImages, campaignImage)
+			fmt.Println(len(campaignImages))
+		}
+		defer image.Close()
 
 	}
-
+	defer rows.Close()
 	return model, nil
 }
 
@@ -151,8 +152,9 @@ func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error)
 }
 
 func (r *campaignRepository) Save(campaign entity.Campaign) (entity.Campaign, error) {
+	fmt.Println(campaign)
 	sqlSmt := `INSERT INTO campaigns(user_id,title,description,target_amount,current_amount,time_start,time_end) VALUES(?,?,?,?,?,?,?)`
-	row, err := r.db.Exec(sqlSmt, campaign.UserID, campaign.Title, campaign.Description, campaign.TargetAmount, campaign.CurrentAmount, campaign.TimeStart, campaign.TimeEnd)
+	row, err := r.db.Exec(sqlSmt, campaign.User.ID, campaign.Title, campaign.Description, campaign.TargetAmount, campaign.CurrentAmount, campaign.TimeStart, campaign.TimeEnd)
 	if err != nil {
 		return campaign, err
 	}
@@ -165,7 +167,7 @@ func (r *campaignRepository) Save(campaign entity.Campaign) (entity.Campaign, er
 }
 
 func (r *campaignRepository) Update(campaign entity.Campaign) (entity.Campaign, error) {
-	sqlSmt := `UPDATE users SET title=?,description=?,target_amount=?,current_amount=?,time_start=?,time_end=? WHERE id = ?`
+	sqlSmt := `UPDATE campaigns SET title=?,description=?,target_amount=?,current_amount=?,time_start=?,time_end=? WHERE id = ?`
 	_, err := r.db.Exec(sqlSmt, campaign.Title, campaign.Description, campaign.TargetAmount, campaign.CurrentAmount, campaign.TimeStart, campaign.TimeEnd, campaign.ID)
 	if err != nil {
 		return campaign, err

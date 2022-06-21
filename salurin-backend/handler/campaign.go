@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"fmt"
 	"net/http"
 	"salurin-backend/entity"
 	"salurin-backend/formatter"
@@ -67,6 +68,7 @@ func (h *campaignHandler) CreateCampaign(c *gin.Context) {
 
 	newCampaign, err := h.service.CreateCampaign(request)
 	if err != nil {
+		fmt.Println(err)
 		errResponse := helper.APIResponse("Create Campaign Failed", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, errResponse)
 		return
@@ -99,8 +101,10 @@ func (h *campaignHandler) EditCampaign(c *gin.Context) {
 	}
 	//SET CAMPAIGNER OWNER
 	request.User = currentUser
+	fmt.Println(currentUser)
 	//UPDATE CAMPAIGN DB
 	updateCampaign, err := h.service.EditCampaign(uri, request)
+	fmt.Println(err)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
 		errResponse := helper.APIResponse("EditCampaign Failed Created", http.StatusBadRequest, "failed", errorMessage)
