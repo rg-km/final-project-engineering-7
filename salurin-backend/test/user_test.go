@@ -67,8 +67,8 @@ var _ = Describe("Api", func() {
 		})
 		Describe("/user/register", func() {
 			When("the username email and password correct validation", func() {
-				It("should return a successful login response", func() {
-					var jsonStr = []byte(`{"name:"user7test","email": "user7@test.com", "password": "123user"}`)
+				It("should return a successful register response", func() {
+					var jsonStr = []byte(`{"name": "user7test", "email": "user7@test.com", "password": "123user"}`)
 					request := httptest.NewRequest(http.MethodPost, "/api/register", bytes.NewBuffer(jsonStr))
 					recoder := httptest.NewRecorder()
 					router.Handler().ServeHTTP(recoder, request)
