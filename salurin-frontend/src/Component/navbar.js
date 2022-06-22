@@ -12,7 +12,7 @@ function navbar()
     return(
         <Navbar className='border-bottom'>
             <Container>
-                <Navbar.Brand href="#home">
+                <Navbar.Brand href='/'>
                     <img
                     src={logo}
                     width="160"
@@ -22,19 +22,19 @@ function navbar()
                 </Navbar.Brand>
                 <Navbar.Toggle />
                 <Nav className='me-auto'>
-                    <Nav.Link href="#home">Home</Nav.Link>
-                    <Nav.Link href="#home">Campaign</Nav.Link>
+                    <Nav.Link href='/'>Home</Nav.Link>
+                    <Nav.Link href='/campaign'>Campaign</Nav.Link>
                     <Nav.Link href="#home">Stories</Nav.Link>
                     <Nav.Link href="#home">Team</Nav.Link>
                 </Nav>
                 <Navbar.Collapse className="justify-content-end">
                     <Button className='btn btn-light mx-2'>
                         {/* Endpoint to login page */}
-                        <Link to='/login' className='text-decoration-none'>Sign In</Link>
+                        <Link to='/login' className='text-decoration-none text-dark'>Sign In</Link>
                     </Button>
                     <Button className='btn btn-success'>
                         {/* Endpoint to Register page */}
-                        <Link to='/register' className='text-decoration-none'>Sign Up</Link>
+                        <Link to='/register' className='text-decoration-none text-light'>Sign Up</Link>
                     </Button>
                 </Navbar.Collapse>
             </Container>

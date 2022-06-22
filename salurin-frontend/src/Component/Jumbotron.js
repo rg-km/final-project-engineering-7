@@ -21,7 +21,7 @@ function Jumbotron() {
       <Row className="d-flex text-dark justify-content-center align-items-center">
         <Col >
           <div className="text-start">
-            <p className="mb-0 fw-bold tittle" style={{fontSize:"4rem"}}>MARI ...</p>
+            <p className="mb-0 fw-bold tittle text-dark" style={{fontSize:"4rem"}}>MARI ...</p>
             <div className="mb-0 fw-bold tittle" style={{fontSize:"4rem"}}>
               <span style={{color:"#599042"}}>GOTONG</span> <span style={{color:"#FF852C"}}> ROYONG!</span>
             </div>
