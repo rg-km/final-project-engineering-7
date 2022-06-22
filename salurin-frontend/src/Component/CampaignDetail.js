@@ -50,7 +50,7 @@ function CampaignDetail() {
               Artikel ini telah diterbitkan di halaman SINDOnews.com pada Rabu, 04 Agustus 2021 - 13:46 WIB oleh Adi Haryanto dengan judul "Belum Punya Ruang Kelas, 450 Siswa SMKN 1 Cipongkor Numpang Belajar di SD".
             </div>
             <div style={{marginTop: '3.5rem', fontSize: '2rem', fontWeight: 'bold'}}>Rp 100.000.000</div>
-            <ProgressBar animated now={20} style={{marginTop: '0.75rem'}}/>
+            <ProgressBar variant="variant_color" now={20} style={{ marginTop: "0.75rem" }} />
             <p style={{marginTop: '0.75rem', fontSize: '1rem'}}>Berakhir pada tanggal 27 Juni 2022</p>
             <Button className="border-0" style={{backgroundColor: "#FF852C", width: '100%', height: '4rem', fontSize: '1.375rem', borderRadius: '1.25rem'}}>Salurin Dana</Button>
           </div>
