@@ -26,6 +26,8 @@ type CampaignImage struct {
 	CampaignID int    `db:"campaign_id"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+
+	User User
 }
 
 /*Request*/

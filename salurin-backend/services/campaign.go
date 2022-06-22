@@ -2,9 +2,9 @@ package services
 
 import (
 	"errors"
-	"fmt"
 	"salurin-backend/entity"
 	"salurin-backend/repository"
+	"time"
 )
 
 type CampaignService interface {
@@ -15,6 +15,8 @@ type CampaignService interface {
 
 	CreateCampaign(form entity.CreateCampaignRequest) (entity.Campaign, error)
 	EditCampaign(uri entity.CampaignDetailRequest, form entity.CreateCampaignRequest) (entity.Campaign, error)
+
+	CreateImageCampaign(campaignImage entity.CampaignImageUploadRequest, fileLocation string) (entity.CampaignImage, error)
 }
 type campaignService struct {
 	repository repository.CampaignRepository
@@ -48,14 +50,18 @@ func (s *campaignService) GetCampaign(userID int) ([]entity.Campaign, error) {
 	return campaings, nil
 }
 func (s *campaignService) CreateCampaign(form entity.CreateCampaignRequest) (entity.Campaign, error) {
+	currentTimeStamp := time.Now()
 	model := entity.Campaign{
 		Title:        form.Title,
 		Description:  form.Description,
 		TargetAmount: form.TargetAmount,
 		User:         form.User,
 		UserID:       form.User.ID,
+		TimeStart:    currentTimeStamp,
+		TimeEnd:      currentTimeStamp,
+		UpdatedAt:    currentTimeStamp,
 	}
-	fmt.Println(model.User)
+
 	newCampaign, err := s.repository.Save(model)
 	if err != nil {
 		return newCampaign, err
@@ -74,13 +80,37 @@ func (s *campaignService) EditCampaign(uri entity.CampaignDetailRequest, form en
 	if model.UserID != form.User.ID {
 		return model, errors.New("User not Authorize for this action")
 	}
+
 	model.Title = form.Title
 	model.TargetAmount = form.TargetAmount
 	model.Description = form.Description
-	fmt.Println(model)
+	model.UpdatedAt = time.Now()
+
 	updateCampaign, err := s.repository.Update(model)
 	if err != nil {
 		return updateCampaign, err
 	}
 	return updateCampaign, nil
+}
+
+func (s *campaignService) CreateImageCampaign(campaignImage entity.CampaignImageUploadRequest, fileLocation string) (entity.CampaignImage, error) {
+	campaign, err := s.repository.FindByID(campaignImage.CampaignId)
+	if err != nil {
+		return entity.CampaignImage{}, err
+	}
+
+	if campaign.UserID != campaignImage.User.ID {
+		return entity.CampaignImage{}, errors.New("Not owned a campaign")
+	}
+	imageCampaign := entity.CampaignImage{
+		CampaignID: campaignImage.CampaignId,
+		Image:      fileLocation,
+	}
+
+	newCampaign, err := s.repository.SaveImage(imageCampaign)
+	if err != nil {
+		return newCampaign, err
+	}
+	return newCampaign, nil
+
 }

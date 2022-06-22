@@ -1,9 +1,10 @@
 package main
 
 import (
-	"github.com/gin-contrib/cors"
 	"salurin-backend/db"
 	handler "salurin-backend/routes/api"
+
+	"github.com/gin-contrib/cors"
 
 	"github.com/gin-gonic/gin"
 )
@@ -15,6 +16,7 @@ func main() {
 	}
 	router := gin.Default()
 	router.Use(cors.Default())
+	router.Static("/images", "assets/images")
 	api := router.Group("/api")
 	handler.APIRoute(api, db)
 	router.Run()
