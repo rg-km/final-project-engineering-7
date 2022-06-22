@@ -18,6 +18,7 @@ import Home from './Pages/Home';
 import RegisterForm from './Pages/Auth/RegisterForm';
 // import Login component
 import LoginForm from './Pages/Auth/LoginForm';
+import Campaign from './Pages/Campaign';
 
 function App() {
   return (
@@ -27,6 +28,9 @@ function App() {
         <Routes>
           {/* This is home/root folder this app */}
           <Route path='/' element={<Home/>} /> 
+
+          {/* This is Campaign Detail route for Campaign Detail page */}
+          <Route path='/campaign' element={<Campaign />} />
 
           {/* This is Register route for register page */}
           <Route path='/register' element={<RegisterForm />} />
