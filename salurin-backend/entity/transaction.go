@@ -14,3 +14,10 @@ type Trasaction struct {
 	User     User
 	Campaign Campaign
 }
+
+type TransactionRequest struct {
+	Amount int `json:"amount"`
+}
+
+type TransactionResponse struct {
+}
