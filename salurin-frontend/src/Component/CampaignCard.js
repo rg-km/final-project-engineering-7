@@ -1,36 +1,43 @@
 import Col from "react-bootstrap/Col";
 import Card from "react-bootstrap/Card";
-import ExampleImage from "../Assets/example-img.svg";
+import ExampleImage from "../Assets/Example-Photo.png";
 import ProgressBar from "react-bootstrap/ProgressBar";
+import "./CampaignCard.css";
 
 function CampaginCard() {
   return (
     <>
-      <Col className="lg-3">
-        <Card className="w-100">
-          <Card.Img variant="top" src={ExampleImage} />
-          <Card.Body>
-            <Card.Title className="d-flex text-left">Card Title</Card.Title>
-            <Card.Text className="d-flex text-start text-muted">
-              Some quick example text to build on the card title and make up the
-              bulk of the card's content.
-            </Card.Text>
-            <hr></hr>
-            <div className="amount fw-bold d-flex text-start my-3">
-              Rp. 15.000.000,00
+      <div className="campaign-card">
+        <div className="image-wrapper">
+          <Card.Img src={ExampleImage} style={{ borderRadius: "1.25rem", height:'100%' }} />
+        </div>
+        <Card.Body>
+          <Card.Title
+            className="d-flex text-left fw-bold"
+            style={{ fontSize: "1rem" }}
+          >
+            Bangun Ruang Kelas Untuk Anak-Anak Terdampak Covid - 19
+          </Card.Title>
+          <hr></hr>
+          <div
+            className="amount fw-bold d-flex text-start"
+            style={{ fontSize: "1rem" }}
+          >
+            Rp. 15.000.000,00
+          </div>
+          <ProgressBar variant="variant_color" now={20} style={{ margin: "0.5rem 0" }} />
+          <Card.Text>
+            <div
+              className="d-flex text-start text-muted"
+              style={{ fontSize: "0.75rem" }}
+            >
+              Berakhir pada 27 Oct 2022
             </div>
-            <ProgressBar animated now={20} />
-            <Card.Text>
-              <small className="d-flex text-start text-muted my-2">
-                Berakhir pada <span className="due-date">27 Oct 2022</span>
-              </small>
-            </Card.Text>
-            {/* <Button variant="primary">Go somewhere</Button> */}
-          </Card.Body>
-        </Card>
-      </Col>
+          </Card.Text>
+        </Card.Body>
+      </div>
     </>
   );
 }
 
-export default CampaginCard
+export default CampaginCard;
