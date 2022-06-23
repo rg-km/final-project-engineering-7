@@ -1,6 +1,9 @@
 package formatter
 
-import "salurin-backend/entity"
+import (
+	"fmt"
+	"salurin-backend/entity"
+)
 
 func FormatterDetailCampaign(campaign entity.Campaign) entity.CampaignDetailResponse {
 	formater := entity.CampaignDetailResponse{
@@ -43,6 +46,7 @@ func FormatterCampaign(campaign entity.Campaign) entity.CampaignResponse {
 
 	if len(campaign.CampaignImages) > 0 {
 		formatter.ImageUrl = campaign.CampaignImages[0].Image
+		fmt.Println(*&campaign.CampaignImages)
 	}
 
 	return formatter

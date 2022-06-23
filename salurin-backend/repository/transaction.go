@@ -6,8 +6,9 @@ import (
 )
 
 type TransactionRepository interface {
-	Save() (entity.Trasaction, error)
-	Update() (entity.Trasaction, error)
+	Save(form entity.Trasaction) (entity.Trasaction, error)
+	Update(form entity.Trasaction) (entity.Trasaction, error)
+	FindByID(id int) (entity.Trasaction, error)
 }
 
 type transactionRepository struct {
@@ -16,4 +17,14 @@ type transactionRepository struct {
 
 func NewTransactionRepository(db *sql.DB) *transactionRepository {
 	return &transactionRepository{db}
+}
+
+func (r *transactionRepository) Save(form entity.Trasaction) (entity.Trasaction, error) {
+	return entity.Trasaction{}, nil
+}
+func (r *transactionRepository) Update(form entity.Trasaction) (entity.Trasaction, error) {
+	return entity.Trasaction{}, nil
+}
+func (r *transactionRepository) FindByID(id int) (entity.Trasaction, error) {
+	return entity.Trasaction{}, nil
 }

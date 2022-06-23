@@ -62,8 +62,11 @@ CREATE TABLE IF NOT EXISTS stories (
 );
 CREATE TABLE IF NOT EXISTS transactions (
   	  id integer not null primary key AUTOINCREMENT,
+  	  campaign_id integer not null,
+      user_id integer not null,
   	  amount integer not null,
-  	  status boolean not null
+  	  status varchar(255) not null
+      payment_url varchar(255) not null
 );
 `)
 	if err != nil {
