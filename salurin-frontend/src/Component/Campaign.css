@@ -1,0 +1,9 @@
+.card-template{
+    display: grid;
+    justify-content: space-between;
+    gap: 3.25rem;
+    grid-template-columns: repeat(3, 23rem);
+    grid-auto-rows: auto;
+    margin-top: 1.25rem;
+    margin-bottom: 9.5rem;
+}
