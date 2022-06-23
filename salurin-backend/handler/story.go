@@ -2,6 +2,7 @@ package handler
 
 import (
 	"net/http"
+	"salurin-backend/entity"
 	"salurin-backend/formatter"
 	"salurin-backend/helper"
 	"salurin-backend/services"
@@ -27,4 +28,28 @@ func (h *storyHandler) GetAllStoryes(c *gin.Context) {
 	formatter := formatter.FormatterStoryes(storyes)
 	reponse := helper.APIResponse("Get All Storyes", http.StatusOK, "success", formatter)
 	c.JSON(http.StatusOK, reponse)
+}
+
+func (h *storyHandler) CreateAStory(c *gin.Context) {
+	var request entity.StoryRequest
+	currentUser := c.MustGet("currentUser").(entity.User)
+	err := c.ShouldBindJSON(&request)
+	if err != nil {
+		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	request.User = currentUser
+
+	stori, err := h.storyService.CreateStory(request)
+	if err != nil {
+		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	reponse := helper.APIResponse("Succesfully created story", http.StatusOK, "success", formatter.FormatterCreateStory(stori))
+	c.JSON(http.StatusOK, reponse)
+
 }

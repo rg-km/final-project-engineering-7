@@ -17,3 +17,16 @@ type StoryResponse struct {
 	Username    string `json:"username"`
 	Avatar      string `json:"avatar"`
 }
+
+type StoryRequest struct {
+	Description string `json:"description"`
+
+	User User
+}
+
+type StoryCreateResponse struct {
+	ID          int       `json:"id"`
+	UserID      int       `json:"user_id"`
+	Description string    `json:"description"`
+	CreatedAt   time.Time `json:"created_at"`
+}

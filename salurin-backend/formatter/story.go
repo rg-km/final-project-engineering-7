@@ -25,3 +25,12 @@ func FormatterStoryes(storyes []entity.Story) []entity.StoryResponse {
 	}
 	return storyesFormatter
 }
+
+func FormatterCreateStory(story entity.Story) entity.StoryCreateResponse {
+	return entity.StoryCreateResponse{
+		ID:          story.ID,
+		Description: story.Description,
+		UserID:      story.UserID,
+		CreatedAt:   story.CreatedAt,
+	}
+}
