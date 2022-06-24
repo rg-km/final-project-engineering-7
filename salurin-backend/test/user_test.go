@@ -8,6 +8,7 @@ import (
 	"net/http"
 	"net/http/httptest"
 	handler "salurin-backend/routes/api"
+	"strings"
 
 	"github.com/gin-gonic/gin"
 	_ "github.com/mattn/go-sqlite3"
@@ -31,11 +32,6 @@ var _ = Describe("Api", func() {
 			handler.APIRoute(api, db)
 		})
 
-		When("the username and password are correct", func() {
-			It("should return a successful login response", func() {
-
-			})
-		})
 		Describe("/user/login", func() {
 			When("the username and password are correct", func() {
 				It("should return a successful login response", func() {
@@ -47,7 +43,8 @@ var _ = Describe("Api", func() {
 					Expect(recoder.Result().StatusCode).To(Equal(http.StatusOK))
 					response := recoder.Result()
 					body, _ := io.ReadAll(response.Body)
-					fmt.Println(string(body))
+					data := strings.Contains(string(body), "user1test")
+					Expect(data).To(Equal(true))
 				})
 			})
 			When("the username and password are incorrect", func() {
@@ -61,14 +58,16 @@ var _ = Describe("Api", func() {
 					Expect(recoder.Result().StatusCode).To(Equal(http.StatusBadRequest))
 					response := recoder.Result()
 					body, _ := io.ReadAll(response.Body)
-					fmt.Println(string(body))
+					data := strings.Contains(string(body), "user1test")
+					Expect(data).To(Equal(false))
+
 				})
 			})
 		})
 		Describe("/user/register", func() {
 			When("the username email and password correct validation", func() {
 				It("should return a successful login response", func() {
-					var jsonStr = []byte(`{"name:"user7test","email": "user7@test.com", "password": "123user"}`)
+					var jsonStr = []byte(`{"email": "user7@test.com", "password": "123user","name":"user7test"}`)
 					request := httptest.NewRequest(http.MethodPost, "/api/register", bytes.NewBuffer(jsonStr))
 					recoder := httptest.NewRecorder()
 					router.Handler().ServeHTTP(recoder, request)
@@ -76,21 +75,22 @@ var _ = Describe("Api", func() {
 					Expect(recoder.Result().StatusCode).To(Equal(http.StatusOK))
 					response := recoder.Result()
 					body, _ := io.ReadAll(response.Body)
-					fmt.Println(string(body))
+					data := strings.Contains(string(body), "user7test")
+					Expect(data).To(Equal(true))
 				})
 			})
 			When("the username and email validation email", func() {
-				It("should return unpro", func() {
-
+				It("should return email is not available", func() {
 					var jsonStr = []byte(`{"email": "user1@test.com"}`)
-					request := httptest.NewRequest(http.MethodPost, "/api/check-email", bytes.NewBuffer(jsonStr))
+					request := httptest.NewRequest(http.MethodPost, "/api/email-check", bytes.NewBuffer(jsonStr))
 					recoder := httptest.NewRecorder()
 					router.Handler().ServeHTTP(recoder, request)
 
-					Expect(recoder.Result().StatusCode).To(Equal(http.StatusUnprocessableEntity))
+					Expect(recoder.Result().StatusCode).To(Equal(http.StatusOK))
 					response := recoder.Result()
 					body, _ := io.ReadAll(response.Body)
-					fmt.Println(string(body))
+					data := strings.Contains(string(body), "user1test")
+					Expect(data).To(Equal(false))
 				})
 			})
 		})
