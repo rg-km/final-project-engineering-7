@@ -62,6 +62,7 @@ func (h *campaignHandler) CreateCampaign(c *gin.Context) {
 	if err != nil {
 		errResponse := helper.APIResponse("Create Campaign Failed", http.StatusUnprocessableEntity, "failed", nil)
 		c.JSON(http.StatusUnprocessableEntity, errResponse)
+		return
 	}
 
 	request.User = currentUser
