@@ -41,7 +41,10 @@ func (r *transactionRepository) Update(form entity.Trasaction) (entity.Trasactio
 	return form, nil
 }
 func (r *transactionRepository) FindByID(id int) (entity.Trasaction, error) {
-	sqlStmt := ``
+	sqlStmt := `SELECT t.id,t.user_id,t.campaign_id,t.amount,t.status,t.payment_url
+    FROM transaction t 
+	WHERE t.user_id =?
+    `
 
 	var model entity.Trasaction
 
@@ -50,7 +53,7 @@ func (r *transactionRepository) FindByID(id int) (entity.Trasaction, error) {
 		return model, err
 	}
 	if rows.Next() {
-		err := rows.Scan(&model.ID, &model.Amount, &model.Status)
+		err := rows.Scan(&model.ID, &model.Amount, &model.Status, &model.UserID, &model.CampaignID, &model.PaymentURl)
 		if err != nil {
 			return model, err
 		}
