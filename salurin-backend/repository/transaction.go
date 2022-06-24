@@ -6,7 +6,7 @@ import (
 )
 
 type TransactionRepository interface {
-	Save(form entity.Trasaction) (entity.Trasaction, error)
+	Save(transaction entity.Trasaction) (entity.Trasaction, error)
 	Update(form entity.Trasaction) (entity.Trasaction, error)
 	FindByID(id int) (entity.Trasaction, error)
 }
@@ -19,12 +19,42 @@ func NewTransactionRepository(db *sql.DB) *transactionRepository {
 	return &transactionRepository{db}
 }
 
-func (r *transactionRepository) Save(form entity.Trasaction) (entity.Trasaction, error) {
-	return entity.Trasaction{}, nil
+func (r *transactionRepository) Save(transaction entity.Trasaction) (entity.Trasaction, error) {
+	sqlStmt := `INSERT INTO transactions(user_id,campaign_id,amount,status,payment_url) VALUES (?,?,?,?,?) `
+	rows, err := r.db.Exec(sqlStmt, transaction.User.ID, transaction.Campaign.ID, transaction.Amount, transaction.Status, transaction.PaymentURl)
+	if err != nil {
+		return transaction, err
+	}
+	id, err := rows.LastInsertId()
+	if err != nil {
+		return transaction, err
+	}
+	transaction.ID = int(id)
+	return transaction, nil
 }
 func (r *transactionRepository) Update(form entity.Trasaction) (entity.Trasaction, error) {
-	return entity.Trasaction{}, nil
+	sqlStmt := `UPDATE transactions SET amount=?, status=? WHERE id=?`
+	_, err := r.db.Exec(sqlStmt, form.Amount, form.Status)
+	if err != nil {
+		return form, err
+	}
+	return form, nil
 }
 func (r *transactionRepository) FindByID(id int) (entity.Trasaction, error) {
-	return entity.Trasaction{}, nil
+	sqlStmt := ``
+
+	var model entity.Trasaction
+
+	rows, err := r.db.Query(sqlStmt, id)
+	if err != nil {
+		return model, err
+	}
+	if rows.Next() {
+		err := rows.Scan(&model.ID, &model.Amount, &model.Status)
+		if err != nil {
+			return model, err
+		}
+		defer rows.Close()
+	}
+	return model, nil
 }

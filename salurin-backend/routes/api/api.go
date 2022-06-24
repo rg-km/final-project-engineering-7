@@ -46,4 +46,5 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	//transaction
 	api.POST("/transaction", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 	api.POST("/transaction/notification", transactionHandler.GetNotification)
+	api.PATCH("/transaction/:id", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 }
