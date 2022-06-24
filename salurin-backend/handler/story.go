@@ -35,16 +35,15 @@ func (h *storyHandler) CreateAStory(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(entity.User)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
-		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to create a story1", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
-
 	request.User = currentUser
 
 	stori, err := h.storyService.CreateStory(request)
 	if err != nil {
-		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to create a story2", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}

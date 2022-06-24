@@ -51,6 +51,7 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 		campaignImages = append(campaignImages, campaignImage)
 		fmt.Println(len(campaignImages))
 	}
+	defer image.Close()
 	if err != nil {
 		return model, err
 	}
@@ -64,7 +65,7 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 		}
 
 	}
-
+	defer rows.Close()
 	return model, nil
 }
 
@@ -83,6 +84,7 @@ func (r *campaignRepository) FindAll() (entity.Campaign, error) {
 			return model, err
 		}
 	}
+	defer rows.Close()
 	return model, err
 }
 func (r *campaignRepository) FindByUserID(UserID int) (entity.Campaign, error) {
@@ -98,6 +100,7 @@ func (r *campaignRepository) FindByUserID(UserID int) (entity.Campaign, error) {
 			return model, err
 		}
 	}
+	defer rows.Close()
 	return model, err
 }
 
@@ -112,6 +115,7 @@ func (r *campaignRepository) Save(campaign entity.Campaign) (entity.Campaign, er
 		return campaign, err
 	}
 	campaign.ID = int(id)
+
 	return campaign, nil
 }
 

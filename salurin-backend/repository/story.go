@@ -2,6 +2,7 @@ package repository
 
 import (
 	"database/sql"
+	"fmt"
 	"salurin-backend/entity"
 )
 
@@ -20,7 +21,7 @@ func NewStoryRepository(db *sql.DB) *storyRepository {
 func (r *storyRepository) FindAll() ([]entity.Story, error) {
 	sqlSmt := `SELECT s.user_id,s.description, u.name, u.avatar 
 	FROM stories s 
-	JOIN users u ON s.user_id = s.id`
+	JOIN users u ON s.user_id = u.id`
 
 	var storyes []entity.Story
 	rows, err := r.db.Query(sqlSmt)
@@ -39,7 +40,7 @@ func (r *storyRepository) FindAll() ([]entity.Story, error) {
 	return storyes, nil
 }
 func (r *storyRepository) Save(stori entity.Story) (entity.Story, error) {
-	sqlSmt := `INSERT INTO stories(user_id, description,created_at,updated_at) VALUES(?,?,?,?)`
+	sqlSmt := `INSERT INTO stories(user_id,description,created_at,updated_at) VALUES(?,?,?,?)`
 	row, err := r.db.Exec(sqlSmt, stori.UserID, stori.Description, stori.CreatedAt, stori.UpdatedAt)
 	if err != nil {
 		return stori, err
@@ -49,5 +50,6 @@ func (r *storyRepository) Save(stori entity.Story) (entity.Story, error) {
 		return stori, err
 	}
 	stori.ID = int(id)
+	fmt.Println(stori)
 	return stori, nil
 }

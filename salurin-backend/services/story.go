@@ -1,6 +1,7 @@
 package services
 
 import (
+	"fmt"
 	"salurin-backend/entity"
 	"salurin-backend/repository"
 	"time"
@@ -28,15 +29,17 @@ func (s *storyService) GetAllStoryes() ([]entity.Story, error) {
 }
 
 func (s *storyService) CreateStory(form entity.StoryRequest) (entity.Story, error) {
-	var stori entity.Story = entity.Story{
+	currentTime := time.Now()
+	stori := entity.Story{
 		Description: form.Description,
 		UserID:      form.User.ID,
-		CreatedAt:   time.Now(),
-		UpdatedAt:   time.Now(),
+		CreatedAt:   currentTime,
+		UpdatedAt:   currentTime,
 		User:        form.User,
 	}
 	newStori, err := s.repository.Save(stori)
 	if err != nil {
+		fmt.Println(err)
 		return newStori, err
 	}
 	return newStori, nil
