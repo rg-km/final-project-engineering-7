@@ -44,4 +44,5 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	//story
 	api.GET("/storyes", storyHandler.GetAllStoryes)
 	api.POST("/storyes", middleware.APIAuthMiddleware(authService, userService), storyHandler.CreateAStory)
+	api.PATCH("/storyes/:id", middleware.APIAuthMiddleware(authService, userService), storyHandler.UpdateAStory)
 }

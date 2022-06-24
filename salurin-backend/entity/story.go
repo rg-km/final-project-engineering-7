@@ -30,3 +30,13 @@ type StoryCreateResponse struct {
 	Description string    `json:"description"`
 	CreatedAt   time.Time `json:"created_at"`
 }
+type StoryIdUpdated struct {
+	ID int `uri:"id" binding:"required"`
+}
+
+type StoryUodateResponse struct {
+	ID          int       `json:"id"`
+	UserID      int       `json:"user_id"`
+	Description string    `json:"description"`
+	UpdatedAt   time.Time `json:"updated_at"`
+}

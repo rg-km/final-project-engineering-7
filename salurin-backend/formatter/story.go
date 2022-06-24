@@ -34,3 +34,12 @@ func FormatterCreateStory(story entity.Story) entity.StoryCreateResponse {
 		CreatedAt:   story.CreatedAt,
 	}
 }
+
+func FormatterUpdateStory(story entity.Story) entity.StoryUodateResponse {
+	return entity.StoryUodateResponse{
+		ID:          story.ID,
+		Description: story.Description,
+		UserID:      story.UserID,
+		UpdatedAt:   story.UpdatedAt,
+	}
+}

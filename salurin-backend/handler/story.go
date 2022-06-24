@@ -35,7 +35,7 @@ func (h *storyHandler) CreateAStory(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(entity.User)
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
-		response := helper.APIResponse("Failed to create a story1", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -43,7 +43,7 @@ func (h *storyHandler) CreateAStory(c *gin.Context) {
 
 	stori, err := h.storyService.CreateStory(request)
 	if err != nil {
-		response := helper.APIResponse("Failed to create a story2", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to create a story", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -51,4 +51,36 @@ func (h *storyHandler) CreateAStory(c *gin.Context) {
 	reponse := helper.APIResponse("Succesfully created story", http.StatusOK, "success", formatter.FormatterCreateStory(stori))
 	c.JSON(http.StatusOK, reponse)
 
+}
+
+func (h *storyHandler) UpdateAStory(c *gin.Context) {
+	var request entity.StoryIdUpdated
+	var form entity.StoryRequest
+	currentUser := c.MustGet("currentUser").(entity.User)
+	err := c.ShouldBindUri(&request)
+
+	if err != nil {
+		response := helper.APIResponse("Failed to update a story1", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	err = c.ShouldBindJSON(&form)
+	form.User = currentUser
+	if err != nil {
+		response := helper.APIResponse("Failed to update a story2", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	stori, err := h.storyService.UpdatedStory(request, form)
+	if err != nil {
+		errorMessage := gin.H{"errors": err.Error()}
+		response := helper.APIResponse("Failed to update a story3", http.StatusUnauthorized, "failed", errorMessage)
+		c.JSON(http.StatusUnauthorized, response)
+		return
+	}
+
+	reponse := helper.APIResponse("Succesfully update story", http.StatusOK, "success", formatter.FormatterUpdateStory(stori))
+	c.JSON(http.StatusOK, reponse)
 }
