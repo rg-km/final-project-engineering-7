@@ -2,10 +2,11 @@ package services
 
 import (
 	"errors"
-	midtrans "github.com/veritrans/go-midtrans"
 	"salurin-backend/entity"
 	"salurin-backend/repository"
 	"strconv"
+
+	midtrans "github.com/veritrans/go-midtrans"
 )
 
 // PaymentInteractor Contract
@@ -26,8 +27,8 @@ func NewPaymentService(transactionRepository repository.TransactionRepository, c
 
 func (s *paymentService) GeneratePaymentURL(transaction entity.Trasaction, user entity.User) (string, error) {
 	midclient := midtrans.NewClient()
-	midclient.ServerKey = "YOUR-VT-SERVER-KEY"
-	midclient.ClientKey = "YOUR-VT-CLIENT-KEY"
+	midclient.ServerKey = "SB-Mid-server-IdPo_UYyvKPvXWLYwI5lCfot"
+	midclient.ClientKey = "SB-Mid-client-qTbU3a_hwbkZYOMk"
 	midclient.APIEnvType = midtrans.Sandbox
 	snapGateway := midtrans.SnapGateway{
 		Client: midclient,

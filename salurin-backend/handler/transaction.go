@@ -1,12 +1,14 @@
 package handler
 
 import (
-	"github.com/gin-gonic/gin"
+	"fmt"
 	"net/http"
 	"salurin-backend/entity"
 	"salurin-backend/formatter"
 	"salurin-backend/helper"
 	"salurin-backend/services"
+
+	"github.com/gin-gonic/gin"
 )
 
 type transactionHandler struct {
@@ -23,7 +25,7 @@ func (t *transactionHandler) CreateTransaction(c *gin.Context) {
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
 
-		response := helper.APIResponse("Failed to transaction", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed to transaction1", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -31,8 +33,8 @@ func (t *transactionHandler) CreateTransaction(c *gin.Context) {
 	request.User = currentUser
 	newTransaction, err := t.service.CreateTransaction(request)
 	if err != nil {
-
-		response := helper.APIResponse("Failed to transaction", http.StatusBadRequest, "error", nil)
+		fmt.Println(err)
+		response := helper.APIResponse("Failed to transaction2", http.StatusBadRequest, "error", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}

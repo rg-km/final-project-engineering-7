@@ -33,8 +33,8 @@ func (r *transactionRepository) Save(transaction entity.Trasaction) (entity.Tras
 	return transaction, nil
 }
 func (r *transactionRepository) Update(form entity.Trasaction) (entity.Trasaction, error) {
-	sqlStmt := `UPDATE transactions SET amount=?, status=? WHERE id=?`
-	_, err := r.db.Exec(sqlStmt, form.Amount, form.Status)
+	sqlStmt := `UPDATE transactions SET amount=?, status=?, payment_url=? WHERE id=?`
+	_, err := r.db.Exec(sqlStmt, form.Amount, form.Status, form.PaymentURl, form.ID)
 	if err != nil {
 		return form, err
 	}

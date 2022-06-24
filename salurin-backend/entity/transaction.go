@@ -18,7 +18,7 @@ type Trasaction struct {
 
 type TransactionRequest struct {
 	Amount     int `json:"amount"`
-	CampaignID int `json:"campaignID"`
+	CampaignID int `json:"campaign_id"`
 	User       User
 }
 
