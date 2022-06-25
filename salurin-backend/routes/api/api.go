@@ -16,17 +16,21 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	userRepository := repository.NewUserRepository(db)
 	campaignRepository := repository.NewCampaignRepository(db)
 	storyRepository := repository.NewStoryRepository(db)
+	transactionRepository := repository.NewTransactionRepository(db)
 
 	//service
 	userService := services.NewUserService(userRepository)
 	authService := config.NewAuthService()
 	campaignService := services.NewCampaignService(campaignRepository)
 	storyService := services.NewStoryService(storyRepository)
+	paymentService := services.NewPaymentService(transactionRepository, campaignRepository)
+	transactionService := services.NewTransactionService(transactionRepository, paymentService)
 
 	//handler
 	userHandler := handler.NewUserHandler(userService, authService)
 	campaignHandler := handler.NewCampaignHandler(campaignService)
 	storyHandler := handler.NewStoryHandler(storyService)
+	transactionHandler := handler.NewTransactionHandler(transactionService, paymentService)
 	//routes
 
 	//users
@@ -46,4 +50,8 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	api.GET("/storyes", storyHandler.GetAllStoryes)
 	api.POST("/storyes", middleware.APIAuthMiddleware(authService, userService), storyHandler.CreateAStory)
 	api.PATCH("/storyes/:id", middleware.APIAuthMiddleware(authService, userService), storyHandler.UpdateAStory)
+	//transaction
+	api.POST("/transaction", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
+	api.POST("/transaction/notification", transactionHandler.GetNotification)
+	api.PATCH("/transaction/:id", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 }
