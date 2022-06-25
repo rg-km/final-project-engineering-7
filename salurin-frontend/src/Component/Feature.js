@@ -11,22 +11,22 @@ function Feature() {
     return(
         <Container>
             <Row className="d-flex justify-content-around" style={{margin:"10.75rem 0"}}>
-                <Col className="justify-content-center" style={{maxWidth:"22rem", maxHeight:"23rem"}}>
-                    <div style={{height:"14rem"}}>
+                <Col style={{maxWidth:"22rem", maxHeight:"23rem"}}>
+                    <div className="d-flex justify-content-center" style={{height:"14rem"}}>
                         <Image src={EasyRegister_Logo}></Image>
                     </div>
                     <p className="feature-title">Easy Register</p>
                     <p className="feature-text">Registrasi akun dengan mudah dan tanpa ribet</p>
                 </Col>
-                <Col className="justify-content-center" style={{maxWidth:"22rem", maxHeight:"23rem"}}>
-                    <div style={{height:"14rem"}}>
+                <Col style={{maxWidth:"22rem", maxHeight:"23rem"}}>
+                    <div className="d-flex justify-content-center" style={{height:"14rem"}}>
                         <Image src={StartYourCampaign_Logo}></Image>
                     </div>
                     <p className="feature-title">Start Your Campaign</p>
                     <p className="feature-text">Buat campaignmu terkait problem fasilitas pendidikan yang ada disekitarmu</p>
                 </Col>
-                <Col className="justify-content-center" style={{maxWidth:"22rem", maxHeight:"23rem"}}>
-                    <div style={{height:"14rem"}}>
+                <Col style={{maxWidth:"22rem", maxHeight:"23rem"}}>
+                    <div className="d-flex justify-content-center" style={{height:"14rem"}}>
                         <Image src={EpicStories_Logo}></Image>
                     </div>
                     <p className="feature-title">Epic Stories</p>

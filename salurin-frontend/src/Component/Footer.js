@@ -9,9 +9,9 @@ function Footer(){
         <footer className="footer-container">
             <div className="salurin-container">
                 <img src={Salurin_White} alt='Logo_Salurin'></img>
-                <p>Salurin</p>
+                <p className='footer-text'>Salurin</p>
             </div>
-            <p>© 2022 Kelompok 7 - Ruang Guru Camp</p>
+            <p className='footer-text'>© 2022 Kelompok 7 - Ruang Guru Camp</p>
             <div className="logo-container">
                 <div className="logo-wrapper" >
                     <img src={Youtube_Logo} alt='Youtube_Logo'></img>

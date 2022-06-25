@@ -1,0 +1,19 @@
+.campaign-card{
+    height: 25rem;
+    width: 23rem;
+    border: 2px solid #BFBFBF;
+    border-radius: 1.25rem;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+}
+
+.image-wrapper{
+    height: 12.5rem;
+    width: 20.5rem;
+    margin-top: 1.25rem;
+}
+
+.bg-variant_color{
+    background-color: #599042!important;
+}
