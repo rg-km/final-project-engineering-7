@@ -11,7 +11,7 @@ import './navbar.css';
 function navbar() 
 {
     return(
-        <Navbar className='border-bottom bg-white nav-bar' sticky='top' inverse collapseOnSelect>
+        <Navbar className='border-bottom bg-white nav-bar' sticky='top' inverse collapseOnSelect expand='lg'>
             <Container>
                 <Navbar.Brand href='/'>
                     <img
@@ -21,19 +21,21 @@ function navbar()
                     alt="Salurin"
                     />
                 </Navbar.Brand>
-                <Navbar.Toggle />
-                <Nav className='me-auto'>
-                    <Nav.Link href='/'>Home</Nav.Link>
-                    <Nav.Link href='/campaign'>Campaign</Nav.Link>
-                    <Nav.Link href="/stories">Stories</Nav.Link>
-                    <Nav.Link href="#home">Team</Nav.Link>
-                </Nav>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className='me-auto navigation'>
+                        <Nav.Link href='/'>Home</Nav.Link>
+                        <Nav.Link href='/campaign'>Campaign</Nav.Link>
+                        <Nav.Link href="/stories">Stories</Nav.Link>
+                        <Nav.Link href="#home">Team</Nav.Link>
+                    </Nav>
+                </Navbar.Collapse>
                 <Navbar.Collapse className="justify-content-end">
-                    <Button className='btn btn-light mx-2'>
+                    <Button className='btn mx-2 p-2'  variant='outline-light'>
                         {/* Endpoint to login page */}
                         <Link to='/login' className='text-decoration-none text-dark p-3'>Sign In</Link>
                     </Button>
-                    <Button className='btn btn-success'>
+                    <Button className='btn btn-success p-2'>
                         {/* Endpoint to Register page */}
                         <Link to='/register' className='text-decoration-none text-light p-3'>Sign Up</Link>
                     </Button>
