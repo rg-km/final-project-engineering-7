@@ -25,7 +25,7 @@ function navbar()
                 <Nav className='me-auto'>
                     <Nav.Link href='/'>Home</Nav.Link>
                     <Nav.Link href='/campaign'>Campaign</Nav.Link>
-                    <Nav.Link href="#home">Stories</Nav.Link>
+                    <Nav.Link href="/stories">Stories</Nav.Link>
                     <Nav.Link href="#home">Team</Nav.Link>
                 </Nav>
                 <Navbar.Collapse className="justify-content-end">
