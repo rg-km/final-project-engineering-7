@@ -41,21 +41,6 @@ func (r *campaignRepository) FindByID(ID int) (entity.Campaign, error) {
 	var campaignImages []entity.CampaignImage
 
 	rows, err := r.db.Query(sqlSmt, ID)
-<<<<<<< HEAD
-	image, _ := r.db.Query(sqlImageStmt, ID)
-	for image.Next() {
-		var campaignImage entity.CampaignImage
-		err := image.Scan(&campaignImage.Image)
-		if err != nil {
-			return model, err
-		}
-		campaignImages = append(campaignImages, campaignImage)
-		fmt.Println(len(campaignImages))
-	}
-	defer image.Close()
-=======
-
->>>>>>> 2e84496624b43a48bef40687b00f7395c5b4e28a
 	if err != nil {
 		return model, err
 	}
@@ -159,15 +144,10 @@ func (r *campaignRepository) FindByUserID(UserID int) ([]entity.Campaign, error)
 		model.CampaignImages = campaignImages
 		models = append(models, model)
 	}
-<<<<<<< HEAD
-	defer rows.Close()
-	return model, err
-=======
 
 	defer rows.Close()
 
 	return models, err
->>>>>>> 2e84496624b43a48bef40687b00f7395c5b4e28a
 }
 
 func (r *campaignRepository) Save(campaign entity.Campaign) (entity.Campaign, error) {
