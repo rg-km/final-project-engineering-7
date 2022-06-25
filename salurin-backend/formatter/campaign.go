@@ -40,7 +40,6 @@ func FormatterCampaign(campaign entity.Campaign) entity.CampaignResponse {
 		CurrentAmount: campaign.CurrentAmount,
 	}
 	formatter.ImageUrl = ""
-	formatter.Title = ""
 
 	if len(campaign.CampaignImages) > 0 {
 		formatter.ImageUrl = campaign.CampaignImages[0].Image
