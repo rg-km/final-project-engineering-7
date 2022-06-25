@@ -18,6 +18,7 @@ import CampaignPage from "./Pages/CampaignPage";
 import CampaignDetail from "./Component/CampaignDetail";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import StoriesPage from "./Pages/StoriesPage";
 
 function App() {
 
@@ -32,6 +33,9 @@ function App() {
 
           {/* This is Campaign Detail route for Campaign Detail page */}
           <Route path="/campaign" element={<CampaignPage/>} />
+
+           {/* This is Campaign Detail route for Stories Detail page */}
+          <Route path="/stories" element={<StoriesPage/>} />
 
           <Route path="/campaign/:id" element={<CampaignDetail />} />
 
