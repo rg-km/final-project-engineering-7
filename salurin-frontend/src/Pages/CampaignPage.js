@@ -7,6 +7,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import CampaignCard from "../Component/CampaignCard";
 import { Button, Container } from "react-bootstrap";
+import EditCampaign from "./EditCampaign";
 
 function CampaignPage() {
   const [data, setData] = useState([]);
@@ -44,7 +45,7 @@ function CampaignPage() {
         >
           <input
             type="text"
-            placeHolder="Mau cari apa..."
+            placeholder="Mau cari apa..."
             style={{
               border: "1px solid #BFBFBF",
               borderRadius: "1rem",
@@ -67,8 +68,8 @@ function CampaignPage() {
         </div>
         <div className="card-template">{campaign}</div>
       </Container>
-      {/* Create Campaign component
-            <CreateCampaign /> */}
+      {/* Create Campaign component */}
+      <CreateCampaign />
       {/* Footer component */}
       <Footer />
     </>

@@ -1,26 +1,39 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
 import StartYourCampaign_Logo from "../Assets/campaign.png";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import moment from "moment"
+import { useNavigate, useParams } from "react-router-dom";
+import TimeEnd from "./TimeEnd";
 
-function CreateCampaign() {
-  const navigate = useNavigate;
-  const [newData, setNewData] = useState({});
-  let today = new Date();
-  const createPost = async () => {
-    let time_end_create = new Date(newData.time_end).toISOString();
-    await axios.post(
-      `https://salurin-backend.herokuapp.com/api/campaigns`,
+function EditCampaign() {
+  let { id } = useParams();
+  const navigate = useNavigate();
+  const [data, setData] = useState({});
+  useEffect(() => {
+    const fetchData = async () => {
+      const data = await axios.get(
+        `https://salurin-backend.herokuapp.com/api/campaigns/${id}`
+      );
+      setData(data.data.data);
+      console.log(data.data.data);
+    };
+    fetchData();
+  }, [id]);
+  
+  const updatePost = async () => {
+    let time_end_zone = new Date(data.time_end).toISOString();
+    await axios.put(
+      `https://salurin-backend.herokuapp.com/api/campaigns/${id}`,
       JSON.stringify({
-        title: newData.title,
-        description: newData.description,
-        time_start: today,
-        target_amount: Number(newData.target_amount),
-        time_end: time_end_create,
-      }),
+        "title":data.title,
+        "description":data.description,
+        "time_start":data.time_start,
+        "target_amount":Number(data.target_amount),
+        "time_end":time_end_zone,
+    }),
       {
         headers: {
           "Content-Type": "multipart/form-data",
@@ -33,12 +46,18 @@ function CreateCampaign() {
   function handleSubmit(e) {
     e.preventDefault();
     console.log("tes");
-    createPost().then((res) => {
-      console.log(res, "succes")
-      navigate(`/`);
+    updatePost().then(() => {
+      navigate(`/campaign/${id}`)
     });
   }
 
+  if (data === null) {
+    return (
+      <div class="d-flex justify-content-center align-content-center">
+        <div class="spinner-border" role="status"></div>
+      </div>
+    );
+  }
   return (
     <Container>
       <p
@@ -49,7 +68,7 @@ function CreateCampaign() {
           marginTop: "5rem",
         }}
       >
-        Create Your Campaign
+        Edit Your Campaign
       </p>
       <div
         className="d-flex justify-content-evenly align-items-center"
@@ -69,7 +88,7 @@ function CreateCampaign() {
         </div>
         <div
           style={{
-            height: "50rem",
+            height: "54rem",
             width: "32rem",
             border: "2px solid #BFBFBF",
             marginTop: "6.5rem",
@@ -81,9 +100,8 @@ function CreateCampaign() {
               <Form.Label>Judul Campaign</Form.Label>
               <Form.Control
                 type="text"
-                onChange={(e) =>
-                  setNewData({ ...newData, title: e.target.value })
-                }
+                value={data.title}
+                onChange={(e) => setData({ ...data, title: e.target.value })}
               />
             </Form.Group>
             <Form.Group className="mb-3">
@@ -93,8 +111,9 @@ function CreateCampaign() {
                 row={14}
                 col={50}
                 style={{ height: "22rem" }}
+                value={data.description}
                 onChange={(e) =>
-                  setNewData({ ...newData, description: e.target.value })
+                  setData({ ...data, description: e.target.value })
                 }
               />
             </Form.Group>
@@ -102,20 +121,26 @@ function CreateCampaign() {
               <Form.Label>Total Dana</Form.Label>
               <Form.Control
                 type="text"
+                value={data.target_amount}
                 onChange={(e) =>
-                  setNewData({ ...newData, target_amount: e.target.value })
+                  setData({ ...data, target_amount: e.target.value })
                 }
               />
             </Form.Group>
-            <Form.Group className="mb-4">
-              <Form.Label>Waktu Berakhir</Form.Label>
+            <Form.Group className="mb-3">
+              <Form.Label>Waktu Berakhir Lama</Form.Label>
+              <br></br>
+              <TimeEnd />
+              <br></br>
+              <Form.Label className="mt-3">Waktu Berakhir Baru</Form.Label>
               <Form.Control
                 type="date"
                 onChange={(e) =>
-                  setNewData({ ...newData, time_end: e.target.value })
+                  setData({ ...data, time_end: e.target.value })
                 }
               />
             </Form.Group>
+            {console.log(data.time_end)}
             <Button
               className="border-0"
               style={{
@@ -124,10 +149,11 @@ function CreateCampaign() {
                 height: "4rem",
                 fontSize: "1.375rem",
                 borderRadius: "1.25rem",
+                marginTop: "1rem",
               }}
               onClick={handleSubmit}
             >
-              Next
+              Edit Campaign
             </Button>
           </Form>
         </div>
@@ -136,4 +162,4 @@ function CreateCampaign() {
   );
 }
 
-export default CreateCampaign;
+export default EditCampaign;

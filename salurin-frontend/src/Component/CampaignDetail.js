@@ -13,6 +13,7 @@ import Navbar from "../Component/navbar";
 import Footer from "../Component/Footer";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import EditCampaign from "../Pages/EditCampaign";
 
 function numberWithDot(x) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
@@ -33,12 +34,13 @@ function CampaignDetail() {
   }, [id]);
   if (data === null) {
     return (
-      <div class="d-flex justify-content-center align-content-center">
-        <div class="spinner-border" role="status">
+      <div className="d-flex justify-content-center align-content-center">
+        <div className="spinner-border" role="status">
         </div>
       </div>
     );
   }
+  let image_url = (data.image_url).split('/')
   return (
     <>
       <Navbar />
@@ -47,6 +49,7 @@ function CampaignDetail() {
           <div className="photo-container">
             <div className="big-wrapper">
               <Image src={TestImage} />
+              {/* <Image classname="big-wrapper" src={`https://salurin-backend.herokuapp.com/images/` + image_url[2]} /> */}
             </div>
             <div className="small-group-wrapper">
               <div>
@@ -82,6 +85,7 @@ function CampaignDetail() {
                   height: "100%",
                   overflowY: "scroll",
                   paddingTop: "0.5rem",
+                  wordWrap: "break-word"
                 }}
               >
                 <div
@@ -104,7 +108,7 @@ function CampaignDetail() {
                 style={{ marginTop: "0.75rem" }}
               />
               <p style={{ marginTop: "0.75rem", fontSize: "1rem" }}>
-                Berakhir pada tanggal 27 Juni 2022
+                Berakhir pada tanggal {(data.time_end).toString().slice(0,10)}
               </p>
               <Button
                 className="border-0"
@@ -122,6 +126,7 @@ function CampaignDetail() {
           </div>
         </div>
         <Campaign />
+        <EditCampaign/>
       </Container>
       <Footer />
     </>

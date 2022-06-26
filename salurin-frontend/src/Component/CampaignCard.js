@@ -9,17 +9,18 @@ function numberWithDot(x) {
 }
 
 function CampaginCard({ id, image_url, title, current_amount, target_amount }) {
+  image_url = image_url.split("/");
   return (
     <>
       <div className="campaign-card">
         <Link to={`/campaign/${id}`} className="text-decoration-none text-dark d-flex flex-column align-items-center">
           <div className="image-wrapper">
             <Card.Img
-              src={`https://salurin-backend.herokuapp.com/images/4-Group%2027.png`}
+              src={`https://salurin-backend.herokuapp.com/images/` + image_url[2]}
               style={{ borderRadius: "1.25rem", height: "100%" }}
             />
           </div>
-          <Card.Body style={{ width: '23rem', height: '11.125rem', padding:'1rem 1.25rem'}}>
+          <Card.Body style={{ maxWidth: '23rem', width:'100%', maxHeight: '11.125rem', height: '100%', padding:'1rem 1.25rem'}}>
             <Card.Title
               className="d-flex text-left fw-bold"
               style={{ fontSize: "1rem", maxHeight: '2.5rem', height: '100%' }}

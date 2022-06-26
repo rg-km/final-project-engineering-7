@@ -18,6 +18,8 @@ import CampaignPage from "./Pages/CampaignPage";
 import CampaignDetail from "./Component/CampaignDetail";
 import axios from "axios";
 import { useState, useEffect } from "react";
+import CreateCampaign from "./Pages/CreateCampaign";
+import CreateCampaignImages from "./Pages/CreateCampaignImages";
 
 function App() {
 
@@ -34,6 +36,8 @@ function App() {
           <Route path="/campaign" element={<CampaignPage/>} />
 
           <Route path="/campaign/:id" element={<CampaignDetail />} />
+          {/* <Route path="/campaign/create" element={<CreateCampaign />} /> */}
+          <Route path="/campaign/create/image" element={<CreateCampaignImages />} />
 
           {/* This is Register route for register page */}
           <Route path="/register" element={<RegisterForm />} />
