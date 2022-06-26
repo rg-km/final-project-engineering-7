@@ -1,4 +1,3 @@
-import logo from "./logo.png";
 import "./App.css";
 
 // We use react router dom version 6, so Switch replaced with Routes
@@ -16,10 +15,11 @@ import RegisterForm from "./Pages/Auth/RegisterForm";
 import LoginForm from "./Pages/Auth/LoginForm";
 import CampaignPage from "./Pages/CampaignPage";
 import CampaignDetail from "./Component/CampaignDetail";
-import axios from "axios";
-import { useState, useEffect } from "react";
 import CreateCampaign from "./Pages/CreateCampaign";
 import CreateCampaignImages from "./Pages/CreateCampaignImages";
+import StoriesPage from "./Pages/StoriesPage";
+import MyCampaignPage from "./Pages/MyCampaignPage";
+import MyStoryPage from "./Pages/MyStoriesPage";
 
 function App() {
 
@@ -33,11 +33,20 @@ function App() {
           <Route path="/" element={<Home />} />
 
           {/* This is Campaign Detail route for Campaign Detail page */}
-          <Route path="/campaign" element={<CampaignPage/>} />
+          <Route path="/campaign" element={<CampaignPage />} />
+
+          {/* This is Campaign Detail route for Stories Detail page */}
+          <Route path="/stories" element={<StoriesPage />} />
 
           <Route path="/campaign/:id" element={<CampaignDetail />} />
           {/* <Route path="/campaign/create" element={<CreateCampaign />} /> */}
           <Route path="/campaign/create/image" element={<CreateCampaignImages />} />
+
+          {/* This is Campaign Detail route for Stories Detail page */}
+          <Route path="/my-campaign" element={<MyCampaignPage />} />
+
+          {/* This is Campaign Detail route for Stories Detail page */}
+          <Route path="/my-story" element={<MyStoryPage />} />
 
           {/* This is Register route for register page */}
           <Route path="/register" element={<RegisterForm />} />

@@ -35,12 +35,12 @@ func (r *userRepository) FindByEmail(email string) (entity.User, error) {
 			return model, err
 		}
 	}
+	defer row.Close()
 
 	return model, nil
 }
 
 func (r *userRepository) Save(user entity.User) (entity.User, error) {
-	fmt.Println(user)
 	sqlSmt := `INSERT INTO users(name,email,password_hash,avatar) VALUES(?,?,?,?)`
 	row, err := r.db.Exec(sqlSmt, user.Name, user.Email, user.PasswordHash, user.Avatar)
 	if err != nil {
@@ -67,7 +67,7 @@ func (r *userRepository) FindByID(id int) (entity.User, error) {
 			return model, err
 		}
 	}
-
+	defer rows.Close()
 	return model, nil
 }
 

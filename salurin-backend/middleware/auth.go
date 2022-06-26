@@ -1,13 +1,14 @@
 package middleware
 
 import (
-	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"net/http"
 	"salurin-backend/config"
 	"salurin-backend/helper"
 	"salurin-backend/services"
 	"strings"
+
+	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 )
 
 func APIAuthMiddleware(authService config.AuthService, userService services.UserService) gin.HandlerFunc {
@@ -30,7 +31,7 @@ func APIAuthMiddleware(authService config.AuthService, userService services.User
 			return
 		}
 		claim, ok := token.Claims.(jwt.MapClaims)
-		if !ok || token.Valid {
+		if !ok || !token.Valid {
 			errResponse := helper.APIResponse("Unauthorize", http.StatusUnauthorized, "failed", nil)
 			c.AbortWithStatusJSON(http.StatusUnauthorized, errResponse)
 			return

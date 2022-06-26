@@ -26,6 +26,8 @@ type CampaignImage struct {
 	CampaignID int    `db:"campaign_id"`
 	CreatedAt  time.Time
 	UpdatedAt  time.Time
+
+	User User
 }
 
 /*Request*/
@@ -39,8 +41,8 @@ type CreateCampaignRequest struct {
 	Title        string `json:"title" binding:"required"`
 	Description  string `json:"description" binding:"required"`
 	TargetAmount int    `json:"target_amount" binding:"required"`
-	UserID       int
-	User         User
+
+	User User
 }
 
 // request image upload
