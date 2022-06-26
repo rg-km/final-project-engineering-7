@@ -4,11 +4,6 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 
 
-function ListStories({index,description}) {
-
-}
-
-
 function StoriesTable() {
   const [data, setData] = useState([]);
   useEffect(() => {
@@ -25,13 +20,12 @@ function StoriesTable() {
     <tr>
       <td>{index + 1}</td>
       <td>{d.description}</td>
-      <td><Button className='btn-success'>Update</Button></td>
+      <td className='text-center'><Button className='btn-light text-white' style={{backgroundColor: "#FF852C"}}>Update</Button></td>
     </tr>);
 });
   return (
-    <Container>
-      <h1 className='text-center mb-3 mt-5'>Data Stories</h1>
-      <Table striped bordered hover>
+    <Container className='mb-5 mt-5'>
+      <Table striped bordered hover responsive>
         <thead>
           <tr>
             <th>#</th>

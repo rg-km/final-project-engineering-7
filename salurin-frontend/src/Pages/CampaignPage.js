@@ -1,8 +1,5 @@
-import CampaignDetail from "../Component/CampaignDetail";
 import Navbar from "../Component/navbar";
 import Footer from "../Component/Footer";
-import CreateCampaign from "./CreateCampaign";
-import Campaign from "../Component/Campaign";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import CampaignCard from "../Component/CampaignCard";

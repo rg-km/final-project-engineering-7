@@ -1,10 +1,7 @@
 import './Stories.css';
 import Container from 'react-bootstrap/Container';
-import Card from 'react-bootstrap/Card';
-import Image from 'react-bootstrap/Image';
 import { useEffect, useState } from "react";
 import axios from "axios";
-import Avatar from '../Assets/avatar-sully.png';
 import StoriesCard from './StoriesCard';
 
 

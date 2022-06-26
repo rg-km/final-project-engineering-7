@@ -1,5 +1,4 @@
 import Card from "react-bootstrap/Card";
-import ExampleImage from "../Assets/Example-Photo.png";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import "./CampaignCard.css";
 import { Link } from "react-router-dom";
