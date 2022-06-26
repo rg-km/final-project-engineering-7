@@ -56,14 +56,18 @@ func (r *storyRepository) Save(stori entity.Story) (entity.Story, error) {
 }
 
 func (r *storyRepository) FindByID(id int) (entity.Story, error) {
-	sqlSmt := `SELECT id,user_id,description FROM stories WHERE id = ?`
+	sqlSmt := `
+	SELECT s.id,s.user_id,s.description, u.name, u.avatar 
+	FROM stories s 
+	JOIN users u ON s.user_id = u.id 
+	WHERE s.id = ?`
 	var model entity.Story
 	rows, err := r.db.Query(sqlSmt, id)
 	if err != nil {
 		return model, err
 	}
 	if rows.Next() {
-		err := rows.Scan(&model.ID, &model.UserID, &model.Description)
+		err := rows.Scan(&model.ID, &model.UserID, &model.Description, &model.User.Name, &model.User.Avatar)
 		if err != nil {
 			return model, err
 		}

@@ -37,8 +37,8 @@ func (h *campaignHandler) GetCampaignDetail(c *gin.Context) {
 		return
 	}
 	formatter := formatter.FormatterDetailCampaign(campaignDetail)
-	reponse := helper.APIResponse("Campaign Detail", http.StatusOK, "success", formatter)
-	c.JSON(http.StatusOK, reponse)
+	response := helper.APIResponse("Campaign Detail", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
 }
 
 func (h *campaignHandler) GetCampaigns(c *gin.Context) {
@@ -50,8 +50,8 @@ func (h *campaignHandler) GetCampaigns(c *gin.Context) {
 		return
 	}
 	formatter := formatter.CampaignsAdapter(campaigns)
-	reponse := helper.APIResponse("List of campaign", http.StatusOK, "success", formatter)
-	c.JSON(http.StatusOK, reponse)
+	response := helper.APIResponse("List of campaign", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
 }
 
 func (h *campaignHandler) CreateCampaign(c *gin.Context) {

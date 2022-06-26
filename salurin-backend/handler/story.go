@@ -26,8 +26,8 @@ func (h *storyHandler) GetAllStoryes(c *gin.Context) {
 		return
 	}
 	formatter := formatter.FormatterStoryes(storyes)
-	reponse := helper.APIResponse("Get All Storyes", http.StatusOK, "success", formatter)
-	c.JSON(http.StatusOK, reponse)
+	response := helper.APIResponse("Get All Storyes", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
 }
 
 func (h *storyHandler) CreateAStory(c *gin.Context) {
@@ -48,8 +48,8 @@ func (h *storyHandler) CreateAStory(c *gin.Context) {
 		return
 	}
 
-	reponse := helper.APIResponse("Succesfully created story", http.StatusOK, "success", formatter.FormatterCreateStory(stori))
-	c.JSON(http.StatusOK, reponse)
+	response := helper.APIResponse("Succesfully created story", http.StatusOK, "success", formatter.FormatterCreateStory(stori))
+	c.JSON(http.StatusOK, response)
 
 }
 
@@ -60,7 +60,7 @@ func (h *storyHandler) UpdateAStory(c *gin.Context) {
 	err := c.ShouldBindUri(&request)
 
 	if err != nil {
-		response := helper.APIResponse("Failed to update a story1", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to update a story", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -68,7 +68,7 @@ func (h *storyHandler) UpdateAStory(c *gin.Context) {
 	err = c.ShouldBindJSON(&form)
 	form.User = currentUser
 	if err != nil {
-		response := helper.APIResponse("Failed to update a story2", http.StatusBadRequest, "failed", nil)
+		response := helper.APIResponse("Failed to update a story", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -76,11 +76,33 @@ func (h *storyHandler) UpdateAStory(c *gin.Context) {
 	stori, err := h.storyService.UpdatedStory(request, form)
 	if err != nil {
 		errorMessage := gin.H{"errors": err.Error()}
-		response := helper.APIResponse("Failed to update a story3", http.StatusUnauthorized, "failed", errorMessage)
+		response := helper.APIResponse("Failed to update a story", http.StatusUnauthorized, "failed", errorMessage)
 		c.JSON(http.StatusUnauthorized, response)
 		return
 	}
 
-	reponse := helper.APIResponse("Succesfully update story", http.StatusOK, "success", formatter.FormatterUpdateStory(stori))
-	c.JSON(http.StatusOK, reponse)
+	response := helper.APIResponse("Succesfully update story", http.StatusOK, "success", formatter.FormatterUpdateStory(stori))
+	c.JSON(http.StatusOK, response)
+}
+
+func (h *storyHandler) GetStory(c *gin.Context) {
+	var request entity.StoryDetailRequest
+
+	err := c.ShouldBindUri(&request)
+	if err != nil {
+		response := helper.APIResponse("Failed to get a story", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+
+	stori, err := h.storyService.GetDetailStory(request)
+	if err != nil {
+		response := helper.APIResponse("Failed to get a story", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	formatter := formatter.FormaterStory(stori)
+	response := helper.APIResponse("Get a Story", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
+
 }
