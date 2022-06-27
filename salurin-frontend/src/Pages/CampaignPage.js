@@ -66,8 +66,6 @@ function CampaignPage() {
         </div>
         <div className="card-template">{campaign}</div>
       </Container>
-      {/* Create Campaign component */}
-      <CreateCampaign />
       {/* Footer component */}
       <Footer />
     </>
