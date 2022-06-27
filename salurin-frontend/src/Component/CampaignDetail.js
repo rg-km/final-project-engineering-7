@@ -36,7 +36,7 @@ function CampaignDetail() {
   }, [id]);
   if (data === null) {
     return (
-      <div className="d-flex justify-content-center align-content-center">
+      <div className="d-flex justify-content-center align-content-center ">
         <div className="spinner-border" role="status">
         </div>
       </div>
