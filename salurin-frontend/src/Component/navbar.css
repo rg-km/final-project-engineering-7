@@ -3,3 +3,7 @@
   color:#599042;
   border-bottom: 2px solid #599042;
 }
+
+.menu-avatar::after {
+  content: none;
+}

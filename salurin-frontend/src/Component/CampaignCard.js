@@ -2,13 +2,16 @@ import Card from "react-bootstrap/Card";
 import ProgressBar from "react-bootstrap/ProgressBar";
 import "./CampaignCard.css";
 import { Link } from "react-router-dom";
+import moment from 'moment'
 
 function numberWithDot(x) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
 }
 
-function CampaginCard({ id, image_url, title, current_amount, target_amount }) {
+function CampaginCard({ id, image_url, title, current_amount, target_amount, time_end }) {
   image_url = image_url.split("/");
+  const idLocale = require('moment/locale/id'); 
+  moment.locale('id', idLocale); 
   return (
     <>
       <div className="campaign-card">
@@ -35,6 +38,7 @@ function CampaginCard({ id, image_url, title, current_amount, target_amount }) {
             </div>
             <ProgressBar
               variant="variant_color"
+              animated
               now={(current_amount / target_amount) * 100}
               style={{ margin: "0.5rem 0" }}
             />
@@ -43,7 +47,8 @@ function CampaginCard({ id, image_url, title, current_amount, target_amount }) {
                 className="d-flex text-start text-muted"
                 style={{ fontSize: "0.75rem" }}
               >
-                Berakhir pada 27 Oct 2022
+                Berakhir Pada {
+                  moment(time_end).format('D MMMM YYYY')}
               </div>
             </Card.Text>
           </Card.Body>
