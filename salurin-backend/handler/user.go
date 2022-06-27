@@ -8,6 +8,8 @@ import (
 	"salurin-backend/formatter"
 	"salurin-backend/helper"
 	"salurin-backend/services"
+	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -127,27 +129,61 @@ func (h *userHandler) UploadAvatar(c *gin.Context) {
 	currentUser := c.MustGet("currentUser").(entity.User)
 	userId := currentUser.ID
 
-	path := fmt.Sprintf("assets/images/%d-%s", userId, file.Filename)
+	// gouroutine
+	wg := sync.WaitGroup{}
+	go func() {
+		wg.Add(1)
+		currentTime := time.Now().Unix()
+		path := fmt.Sprintf("assets/images/%d-%d-%s", userId, currentTime, file.Filename)
+		err = c.SaveUploadedFile(file, path)
+		fmt.Println(" file saved")
 
-	err = c.SaveUploadedFile(file, path)
-
-	if err != nil {
-
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload avatar image2", http.StatusBadRequest, "failed", data)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-	_, err = h.userService.SaveAvatarImage(userId, path)
-	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload avatar image3", http.StatusBadRequest, "failed", data)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
+		if err != nil {
+			fmt.Println(err.Error())
+			data := gin.H{"is_uploaded": false}
+			response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "failed", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+		wg.Done()
+		_, err = h.userService.SaveAvatarImage(userId, path)
+		if err != nil {
+			data := gin.H{"is_uploaded": false}
+			response := helper.APIResponse("Failed to upload avatar image", http.StatusBadRequest, "failed", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
+	}()
+	wg.Wait()
 	data := gin.H{"is_uploaded": true}
 	response := helper.APIResponse("Avatar successfully uploaded", http.StatusOK, "success", data)
 	c.JSON(http.StatusOK, response)
 
+}
+
+func (h *userHandler) ResetPassword(c *gin.Context) {
+	var request entity.ResetPasswordUserRequest
+	err := c.ShouldBindJSON(&request)
+	if err != nil {
+		response := helper.APIResponse("Reset User Password Failed", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	user, err := h.userService.ResetUserPasssword(request)
+	if err != nil {
+		response := helper.APIResponse("Reset User Password Failed", http.StatusBadRequest, "failed", nil)
+		c.JSON(http.StatusBadRequest, response)
+		return
+	}
+	response := helper.APIResponse("Avatar successfully uploaded", http.StatusOK, "success", formatter.UserFormater(user, ""))
+	c.JSON(http.StatusOK, response)
+
+}
+
+func (uh *userHandler) FetchUser(c *gin.Context) {
+	currentUser := c.MustGet("currentUser").(entity.User)
+	formatter := formatter.FormatterUserFetc(currentUser, "")
+
+	response := helper.APIResponse("Succesfully fetch user data", http.StatusOK, "success", formatter)
+	c.JSON(http.StatusOK, response)
 }

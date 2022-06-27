@@ -8,6 +8,8 @@ import (
 	"salurin-backend/helper"
 	"salurin-backend/services"
 	"strconv"
+	"sync"
+	"time"
 
 	"github.com/gin-gonic/gin"
 )
@@ -140,27 +142,34 @@ func (h *campaignHandler) UploadImage(c *gin.Context) {
 
 	currentUser := c.MustGet("currentUser").(entity.User)
 	userId := currentUser.ID
-	request.User = currentUser
-	path := fmt.Sprintf("assets/images/%d-%s", userId, file.Filename)
+	request.User = userId
+	//goroutine
+	wg := sync.WaitGroup{}
+	go func() {
+		wg.Add(1)
 
-	err = c.SaveUploadedFile(file, path)
+		currentTime := time.Now().Unix()
+		path := fmt.Sprintf("assets/images/%d-%d-%s", userId, currentTime, file.Filename)
+		err = c.SaveUploadedFile(file, path)
+		wg.Done()
+		if err != nil {
+			data := gin.H{"is_uploaded": false}
+			response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "failed", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
 
-	if err != nil {
+		campaign, err := h.service.CreateImageCampaign(request, path)
+		fmt.Println(campaign)
+		if err != nil {
+			data := gin.H{"is_uploaded": false}
+			response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "failed", data)
+			c.JSON(http.StatusBadRequest, response)
+			return
+		}
 
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "failed", data)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
-	_, err = h.service.CreateImageCampaign(request, path)
-	if err != nil {
-		data := gin.H{"is_uploaded": false}
-		response := helper.APIResponse("Failed to upload campaign image", http.StatusBadRequest, "failed", data)
-		c.JSON(http.StatusBadRequest, response)
-		return
-	}
-
+	}()
+	wg.Wait()
 	data := gin.H{"is_uploaded": true}
 	response := helper.APIResponse("Campaign image successfully uploaded", http.StatusOK, "success", data)
 	c.JSON(http.StatusOK, response)

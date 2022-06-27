@@ -76,8 +76,23 @@ func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 	sqlSmtImg := `SELECT image from campaign_images where campaign_id =?`
 
 	var models []entity.Campaign
-	var campaignImages []entity.CampaignImage
 	var model entity.Campaign
+	var campaignImages []entity.CampaignImage
+	var campaignsImages entity.CampaignImage
+	image, _ := r.db.Query(sqlSmtImg)
+	for image.Next() {
+		err := image.Scan(&campaignsImages.Image, &campaignsImages.CampaignID)
+		if err != nil {
+			fmt.Println(err)
+			return models, err
+		}
+		defer image.Close()
+		// fmt.Println("ini campaignimage caampaignid", campaignsImages.Image)
+
+		campaignImages = append(campaignImages, campaignsImages)
+	}
+
+	model.CampaignImages = campaignImages
 
 	rows, err := r.db.Query(sqlSmt)
 	if err != nil {
@@ -88,23 +103,9 @@ func (r *campaignRepository) FindAll() ([]entity.Campaign, error) {
 		if err != nil {
 			return models, err
 		}
-		image, _ := r.db.Query(sqlSmtImg, &model.ID)
-		for image.Next() {
-			var campaignsImages entity.CampaignImage
-			err := image.Scan(&campaignsImages.Image)
-			if err != nil {
-				fmt.Println(err)
-				return models, err
-			}
-			campaignImages = append(campaignImages, campaignsImages)
-		}
-
-		defer image.Close()
-		model.CampaignImages = campaignImages
 		models = append(models, model)
+		defer rows.Close()
 	}
-
-	defer rows.Close()
 
 	return models, err
 }

@@ -38,29 +38,32 @@ type CampaignDetailRequest struct {
 
 // request create campaign
 type CreateCampaignRequest struct {
-	Title        string `json:"title" binding:"required"`
-	Description  string `json:"description" binding:"required"`
-	TargetAmount int    `json:"target_amount" binding:"required"`
-
-	User User
+	Title        string    `json:"title" binding:"required"`
+	Description  string    `json:"description" binding:"required"`
+	TargetAmount int       `json:"target_amount" binding:"required"`
+	TimeStart    time.Time `json:"time_start" binding:"required"`
+	TimeEnd      time.Time `json:"time_end" binding:"required"`
+	User         User
 }
 
 // request image upload
 type CampaignImageUploadRequest struct {
 	CampaignId int `form:"campaign_id" binding:"required"`
-	User       User
+	User       int
 }
 
 /*Response*/
 //campaign response
 type CampaignResponse struct {
-	ID            int    `json:"id"`
-	UserID        int    `json:"user_id"`
-	Title         string `json:"title"`
-	Description   string `json:"description"`
-	ImageUrl      string `json:"image_url"`
-	TargetAmount  int    `json:"target_amount"`
-	CurrentAmount int    `json:"current_amount"`
+	ID            int       `json:"id"`
+	UserID        int       `json:"user_id"`
+	Title         string    `json:"title"`
+	Description   string    `json:"description"`
+	ImageUrl      string    `json:"image_url"`
+	TargetAmount  int       `json:"target_amount"`
+	CurrentAmount int       `json:"current_amount"`
+	TimeStart     time.Time `json:"time_start"`
+	TimeEnd       time.Time `json:"time_end"`
 }
 
 // campaign detail response
@@ -72,6 +75,8 @@ type CampaignDetailResponse struct {
 	TargetAmount  int                      `json:"target_amount"`
 	CurrentAmount int                      `json:"current_amount"`
 	Description   string                   `json:"description"`
+	TimeStart     time.Time                `json:"time_start"`
+	TimeEnd       time.Time                `json:"time_end"`
 	User          CampaignUserResponse     `json:"user"`
 	Images        []CampaignImagesResponse `json:"images"`
 }
