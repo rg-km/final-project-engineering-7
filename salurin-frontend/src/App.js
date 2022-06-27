@@ -15,6 +15,8 @@ import RegisterForm from "./Pages/Auth/RegisterForm";
 import LoginForm from "./Pages/Auth/LoginForm";
 import CampaignPage from "./Pages/CampaignPage";
 import CampaignDetail from "./Component/CampaignDetail";
+import CreateCampaign from "./Pages/CreateCampaign";
+import CreateCampaignImages from "./Pages/CreateCampaignImages";
 import StoriesPage from "./Pages/StoriesPage";
 import MyCampaignPage from "./Pages/MyCampaignPage";
 import MyStoryPage from "./Pages/MyStoriesPage";
@@ -37,6 +39,8 @@ function App() {
           <Route path="/stories" element={<StoriesPage />} />
 
           <Route path="/campaign/:id" element={<CampaignDetail />} />
+          {/* <Route path="/campaign/create" element={<CreateCampaign />} /> */}
+          <Route path="/campaign/create/image" element={<CreateCampaignImages />} />
 
           {/* This is Campaign Detail route for Stories Detail page */}
           <Route path="/my-campaign" element={<MyCampaignPage />} />
