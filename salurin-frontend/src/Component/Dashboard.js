@@ -21,7 +21,7 @@ function Dashboard(){
         <Container>
             <Table className="mt-4">
                 <thead className="thead">
-                    Data Mahasiswa
+                    Data Salurin
                 </thead>
         <Table style={{textAlign: "center"}} className="mt-4 mb-4" striped bordered hover>
         <thead>
