@@ -12,6 +12,7 @@ type StoryService interface {
 	GetAllStoryes() ([]entity.Story, error)
 	CreateStory(form entity.StoryRequest) (entity.Story, error)
 	UpdatedStory(id entity.StoryIdUpdated, form entity.StoryRequest) (entity.Story, error)
+	GetDetailStory(form entity.StoryDetailRequest) (entity.Story, error)
 }
 type storyService struct {
 	repository repository.StoryRepository
@@ -65,4 +66,13 @@ func (s *storyService) UpdatedStory(id entity.StoryIdUpdated, form entity.StoryR
 		return newStori, err
 	}
 	return newStori, nil
+}
+
+func (s *storyService) GetDetailStory(form entity.StoryDetailRequest) (entity.Story, error) {
+	stori, err := s.repository.FindByID(form.ID)
+	if err != nil {
+		return stori, err
+	}
+
+	return stori, nil
 }
