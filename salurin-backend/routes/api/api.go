@@ -38,21 +38,22 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	api.POST("/register", userHandler.RegisterUser)
 	api.POST("/email-check", userHandler.CheckEmailAvailable)
 	api.POST("/avatar", middleware.APIAuthMiddleware(authService, userService), userHandler.UploadAvatar)
+	api.GET("/users/fetch", middleware.APIAuthMiddleware(authService, userService), userHandler.FetchUser)
 	//campaign
 	api.GET("/campaigns/:id", campaignHandler.GetCampaignDetail)
 	api.GET("/campaigns", campaignHandler.GetCampaigns)
 
 	api.POST("/campaigns", middleware.APIAuthMiddleware(authService, userService), campaignHandler.CreateCampaign)
-	api.PATCH("/campaigns/:id", middleware.APIAuthMiddleware(authService, userService), campaignHandler.EditCampaign)
+	api.PUT("/campaigns/:id", middleware.APIAuthMiddleware(authService, userService), campaignHandler.EditCampaign)
 	api.POST("/campaign-images", middleware.APIAuthMiddleware(authService, userService), campaignHandler.UploadImage)
 
 	//story
 	api.GET("/storyes", storyHandler.GetAllStoryes)
 	api.POST("/storyes", middleware.APIAuthMiddleware(authService, userService), storyHandler.CreateAStory)
-	api.PATCH("/storyes/:id", middleware.APIAuthMiddleware(authService, userService), storyHandler.UpdateAStory)
+	api.PUT("/storyes/:id", middleware.APIAuthMiddleware(authService, userService), storyHandler.UpdateAStory)
 	api.GET("/storyes/:id", storyHandler.GetStory)
 	//transaction
 	api.POST("/transaction", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 	api.POST("/transaction/notification", transactionHandler.GetNotification)
-	api.PATCH("/transaction/:id", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
+	api.PUT("/transaction/:id", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 }

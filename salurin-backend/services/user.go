@@ -14,6 +14,7 @@ type UserService interface {
 	GetUserByID(id int) (entity.User, error)
 	CheckEmailAvailability(form entity.CheckEmailAvailableRequest) (bool, error)
 	SaveAvatarImage(id int, fileLocation string) (entity.User, error)
+	ResetUserPasssword(form entity.ResetPasswordUserRequest) (entity.User, error)
 }
 
 type userService struct {
@@ -93,4 +94,26 @@ func (s *userService) SaveAvatarImage(id int, fileLocation string) (entity.User,
 		return user, err
 	}
 	return userUpdated, nil
+}
+
+func (s *userService) ResetUserPasssword(form entity.ResetPasswordUserRequest) (entity.User, error) {
+	user, err := s.repository.FindByEmail(form.Email)
+	if err != nil {
+		return user, err
+	}
+	if form.Name != user.Name {
+		return user, errors.New("Incorect Username or Email")
+	}
+
+	passwordHash, err := bcrypt.GenerateFromPassword([]byte(form.NewPassword), bcrypt.MinCost)
+	if err != nil {
+		return user, err
+	}
+	user.PasswordHash = string(passwordHash)
+	newUser, err := s.repository.Update(user)
+	if err != nil {
+		return newUser, err
+	}
+
+	return newUser, nil
 }

@@ -57,8 +57,8 @@ func (s *campaignService) CreateCampaign(form entity.CreateCampaignRequest) (ent
 		TargetAmount: form.TargetAmount,
 		User:         form.User,
 		UserID:       form.User.ID,
-		TimeStart:    currentTimeStamp,
-		TimeEnd:      currentTimeStamp,
+		TimeStart:    form.TimeStart,
+		TimeEnd:      form.TimeEnd,
 		UpdatedAt:    currentTimeStamp,
 	}
 
@@ -85,6 +85,8 @@ func (s *campaignService) EditCampaign(uri entity.CampaignDetailRequest, form en
 	model.TargetAmount = form.TargetAmount
 	model.Description = form.Description
 	model.UpdatedAt = time.Now()
+	model.TimeStart = form.TimeStart
+	model.TimeEnd = form.TimeEnd
 
 	updateCampaign, err := s.repository.Update(model)
 	if err != nil {
@@ -94,14 +96,11 @@ func (s *campaignService) EditCampaign(uri entity.CampaignDetailRequest, form en
 }
 
 func (s *campaignService) CreateImageCampaign(campaignImage entity.CampaignImageUploadRequest, fileLocation string) (entity.CampaignImage, error) {
-	campaign, err := s.repository.FindByID(campaignImage.CampaignId)
+	_, err := s.repository.FindByID(campaignImage.CampaignId)
 	if err != nil {
 		return entity.CampaignImage{}, err
 	}
 
-	if campaign.UserID != campaignImage.User.ID {
-		return entity.CampaignImage{}, errors.New("Not owned a campaign")
-	}
 	imageCampaign := entity.CampaignImage{
 		CampaignID: campaignImage.CampaignId,
 		Image:      fileLocation,

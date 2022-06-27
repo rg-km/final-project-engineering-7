@@ -19,3 +19,14 @@ func UserFormater(user entity.User, token string) entity.RegisterResponse {
 	}
 	return formater
 }
+
+func FormatterUserFetc(user entity.User, token string) entity.FetchUserResponse {
+	formater := entity.FetchUserResponse{
+		ID:     user.ID,
+		Name:   user.Name,
+		Email:  user.Email,
+		Token:  token,
+		Avatar: user.Avatar,
+	}
+	return formater
+}

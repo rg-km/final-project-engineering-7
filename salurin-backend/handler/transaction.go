@@ -25,7 +25,7 @@ func (t *transactionHandler) CreateTransaction(c *gin.Context) {
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
 
-		response := helper.APIResponse("Failed to transaction1", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed to transaction1", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -34,7 +34,7 @@ func (t *transactionHandler) CreateTransaction(c *gin.Context) {
 	newTransaction, err := t.service.CreateTransaction(request)
 	if err != nil {
 		fmt.Println(err)
-		response := helper.APIResponse("Failed to transaction2", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed to transaction2", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
@@ -45,14 +45,14 @@ func (t *transactionHandler) GetNotification(c *gin.Context) {
 	var request entity.TransactionNotificationRequest
 	err := c.ShouldBindJSON(&request)
 	if err != nil {
-		response := helper.APIResponse("Failed process notification", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed process notification", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
 
 	err = t.payment.ProcessPayment(request)
 	if err != nil {
-		response := helper.APIResponse("Failed process notification", http.StatusBadRequest, "error", nil)
+		response := helper.APIResponse("Failed process notification", http.StatusBadRequest, "failed", nil)
 		c.JSON(http.StatusBadRequest, response)
 		return
 	}
