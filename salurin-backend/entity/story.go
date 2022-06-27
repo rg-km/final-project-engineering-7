@@ -40,3 +40,7 @@ type StoryUodateResponse struct {
 	Description string    `json:"description"`
 	UpdatedAt   time.Time `json:"updated_at"`
 }
+
+type StoryDetailRequest struct {
+	ID int `uri:"id"`
+}

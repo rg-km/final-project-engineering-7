@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import Container from "react-bootstrap/Container";
-import TestImage from "../Assets/Example-Photo.png";
 import Image from "react-bootstrap/Image";
 import "./CampaignDetail.css";
 import ProgressBar from "react-bootstrap/ProgressBar";
@@ -14,6 +13,7 @@ import Footer from "../Component/Footer";
 import axios from "axios";
 import { useParams } from "react-router-dom";
 import EditCampaign from "../Pages/EditCampaign";
+import moment from 'moment';
 
 function numberWithDot(x) {
   return x.toString().replace(/\B(?<!\.\d*)(?=(\d{3})+(?!\d))/g, ".");
@@ -21,6 +21,8 @@ function numberWithDot(x) {
 
 function CampaignDetail() {
   let { id } = useParams();
+  const idLocale = require('moment/locale/id'); 
+  moment.locale('id', idLocale); 
 
   const [data, setData] = useState(null);
   useEffect(() => {
@@ -41,6 +43,9 @@ function CampaignDetail() {
     );
   }
   let image_url = (data.image_url).split('/')
+  let otherImage_url1 = (data.images[1].image_url).split('/');
+  let otherImage_url2 = (data.images[2].image_url).split('/');
+  console.log(otherImage_url2)
   return (
     <>
       <Navbar />
@@ -48,15 +53,15 @@ function CampaignDetail() {
         <div className="campaign-detail-container">
           <div className="photo-container">
             <div className="big-wrapper">
-              <Image src={TestImage} />
-              {/* <Image classname="big-wrapper" src={`https://salurin-backend.herokuapp.com/images/` + image_url[2]} /> */}
+              {/* <Image src={TestImage} /> */}
+              <Image classname="big-wrapper" src={`https://salurin-backend.herokuapp.com/images/` + image_url[2]} />
             </div>
             <div className="small-group-wrapper">
               <div>
-                <Image className="small-wrapper" src={TestImage} />
+              <Image classname="small-wrapper" src={`https://salurin-backend.herokuapp.com/images/` + otherImage_url1[2]} />
               </div>
               <div>
-                <Image className="small-wrapper" src={TestImage} />
+              <Image classname="small-wrapper" src={`https://salurin-backend.herokuapp.com/images/` + otherImage_url1[2]} />
               </div>
             </div>
           </div>
@@ -104,11 +109,12 @@ function CampaignDetail() {
               </div>
               <ProgressBar
                 variant="variant_color"
+                animated
                 now={(data.current_amount / data.target_amount) * 100}
                 style={{ marginTop: "0.75rem" }}
               />
               <p style={{ marginTop: "0.75rem", fontSize: "1rem" }}>
-                Berakhir pada tanggal {(data.time_end).toString().slice(0,10)}
+                Berakhir pada tanggal {moment(data.time_end).format('D MMMM YYYY')}
               </p>
               <Button
                 className="border-0"
@@ -126,7 +132,6 @@ function CampaignDetail() {
           </div>
         </div>
         <Campaign />
-        <EditCampaign/>
       </Container>
       <Footer />
     </>

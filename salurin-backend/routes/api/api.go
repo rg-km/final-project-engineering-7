@@ -50,6 +50,7 @@ func APIRoute(api *gin.RouterGroup, db *sql.DB) {
 	api.GET("/storyes", storyHandler.GetAllStoryes)
 	api.POST("/storyes", middleware.APIAuthMiddleware(authService, userService), storyHandler.CreateAStory)
 	api.PATCH("/storyes/:id", middleware.APIAuthMiddleware(authService, userService), storyHandler.UpdateAStory)
+	api.GET("/storyes/:id", storyHandler.GetStory)
 	//transaction
 	api.POST("/transaction", middleware.APIAuthMiddleware(authService, userService), transactionHandler.CreateTransaction)
 	api.POST("/transaction/notification", transactionHandler.GetNotification)
