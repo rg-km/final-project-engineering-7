@@ -11,7 +11,7 @@ import Navbar from "../Component/navbar";
 // import footer component
 import Footer from "../Component/Footer";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import { Link, useParams } from "react-router-dom";
 import EditCampaign from "../Pages/EditCampaign";
 import moment from 'moment';
 
@@ -101,11 +101,11 @@ function CampaignDetail() {
               <div
                 style={{
                   marginTop: "1rem",
-                  fontSize: "2rem",
+                  fontSize: "1.5rem",
                   fontWeight: "bold",
                 }}
               >
-                Rp {numberWithDot(data.target_amount)}
+                Dana Terkumpul Rp {numberWithDot(data.current_amount)}
               </div>
               <ProgressBar
                 variant="variant_color"
@@ -126,7 +126,7 @@ function CampaignDetail() {
                   borderRadius: "1.25rem",
                 }}
               >
-                Salurin Dana
+                <Link to='/transaction' className='text-decoration-none text-white'>Salurin Dana</Link>
               </Button>
             </div>
           </div>
