@@ -2,10 +2,11 @@ import Navbar from "../Component/navbar";
 import Footer from "../Component/Footer";
 import { Container } from "react-bootstrap";
 import CampaignTable from "../Component/CampaignTable";
+import { Link } from "react-router-dom";
 
 function MyCampaignPage() {
     return (
-        <Container>
+        <>
             {/* Navbar component */}
             <Navbar />
             <Container>
@@ -13,7 +14,7 @@ function MyCampaignPage() {
                 <CampaignTable/>
             </Container>
             <Footer />
-        </Container>
+        </>
     );
 }
 

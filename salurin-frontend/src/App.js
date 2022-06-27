@@ -15,11 +15,14 @@ import RegisterForm from "./Pages/Auth/RegisterForm";
 import LoginForm from "./Pages/Auth/LoginForm";
 import CampaignPage from "./Pages/CampaignPage";
 import CampaignDetail from "./Component/CampaignDetail";
-import CreateCampaign from "./Pages/CreateCampaign";
 import CreateCampaignImages from "./Pages/CreateCampaignImages";
 import StoriesPage from "./Pages/StoriesPage";
+import MyCampaign from "./Component/CampaignTable";
+import MyStory from "./Component/StoriesTable";
 import MyCampaignPage from "./Pages/MyCampaignPage";
 import MyStoryPage from "./Pages/MyStoriesPage";
+import Transaction from "./Component/Transaction";
+import TransactionPage from "./Pages/TransactionPage";
 
 function App() {
 
@@ -47,6 +50,9 @@ function App() {
 
           {/* This is Campaign Detail route for Stories Detail page */}
           <Route path="/my-story" element={<MyStoryPage />} />
+
+          {/* This is Campaign Detail route for Stories Detail page */}
+          <Route path="/transaction" element={<TransactionPage />} />
 
           {/* This is Register route for register page */}
           <Route path="/register" element={<RegisterForm />} />
