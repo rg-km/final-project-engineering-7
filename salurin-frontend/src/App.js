@@ -20,6 +20,7 @@ import CreateCampaignImages from "./Pages/CreateCampaignImages";
 import StoriesPage from "./Pages/StoriesPage";
 import MyCampaignPage from "./Pages/MyCampaignPage";
 import MyStoryPage from "./Pages/MyStoriesPage";
+import Dashboard from "./Component/Dashboard";
 
 function App() {
 
@@ -53,6 +54,9 @@ function App() {
 
           {/* This is Login route for login page */}
           <Route path="/login" element={<LoginForm />} />
+
+          {/* This is Dashboard page */}
+          <Route path="/dashboard" element={<Dashboard />} />
         </Routes>
       </Router>
     </>

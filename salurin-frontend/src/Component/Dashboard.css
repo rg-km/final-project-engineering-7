@@ -1,0 +1,70 @@
+.Button-Edit {
+    background-color: #FF852C;
+    border-color: transparent;
+    width: 90px;
+}
+
+.Button-Update {
+    background-color: #599042;
+    border-color: transparent;
+    width: 90px
+}
+
+.Button-Save {
+    background-color: #599042;
+    border-color: transparent;
+}
+
+.Button-Save:hover{
+    background-color: #599042;
+    border-color: transparent;
+}
+
+.Button-Save-Edit {
+    background-color: #FF852C;
+    border-color: transparent;
+}
+
+.Button-Save-Edit:hover{
+    background-color: #FF852C;
+    border-color: transparent;
+}
+
+
+.Button-Edit:hover{
+    background-color: transparent;
+    border-color: #FF852C;
+    color: #FF852C;
+    width: 90px;
+}
+
+.Button-Edit:focus{
+    background-color: transparent;
+    border-color: #FF852C;
+    color: #FF852C;
+    width: 90px;
+}
+
+.Button-Update:hover {
+    background-color: transparent;
+    border-color: #599042;
+    color: #599042;
+    width: 90px;
+}
+
+.Button-Update:focus {
+    background-color: transparent;
+    border-color: #599042;
+    color: #599042;
+    width: 90px;
+}
+
+.thead {
+    text-align: center;
+    font-size: 40px;
+}
+
+.modal-title {
+    text-align: center;
+    width: 600px;
+}
